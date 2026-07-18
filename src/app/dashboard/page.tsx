@@ -18,6 +18,7 @@ import {
   MessageSquare,
   BookOpen,
   Camera,
+  User,
 } from "lucide-react";
 import type { Roadmap, Schedule, ChatMessage } from "@/lib/types";
 
@@ -260,7 +261,15 @@ export default function DashboardPage() {
               </p>
             </div>
           </div>
-          <div style={{ display: "flex", gap: "0.75rem" }}>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <Link href="/dashboard/profile">
+              <button
+                className="btn-outline"
+                style={{ padding: "0.6rem 1.2rem", fontSize: "0.85rem", display: "flex", alignItems: "center", gap: "0.5rem" }}
+              >
+                <User size={16} /> Profile
+              </button>
+            </Link>
             <Link href="/dashboard/manage-roadmaps">
               <button
                 className="btn-outline"
