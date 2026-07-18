@@ -1,0 +1,268 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { BookOpen, Menu, X, LayoutDashboard, Compass, LogOut, LogIn } from "lucide-react";
+
+export default function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const { data: session, isPending } = authClient.useSession();
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    router.push("/");
+    router.refresh();
+  };
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/explore", label: "Explore", icon: <Compass size={16} /> },
+    ...(session
+      ? [{ href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={16} /> }]
+      : []),
+  ];
+
+  return (
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        transition: "all 0.3s ease",
+        background: scrolled
+          ? "rgba(10, 10, 26, 0.95)"
+          : "transparent",
+        backdropFilter: scrolled ? "blur(20px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
+        padding: "0 1.5rem",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "72px",
+        }}
+      >
+        {/* Logo */}
+        <Link
+          href="/"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            textDecoration: "none",
+          }}
+        >
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "10px",
+              background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <BookOpen size={20} color="white" />
+          </div>
+          <span
+            style={{
+              fontWeight: 800,
+              fontSize: "1.2rem",
+              background: "linear-gradient(135deg, #a78bfa, #06b6d4)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            StudyMate AI
+          </span>
+        </Link>
+
+        {/* Desktop nav links */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+          }}
+          className="hidden md:flex"
+        >
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.4rem",
+                padding: "0.5rem 1rem",
+                borderRadius: "0.5rem",
+                textDecoration: "none",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                color:
+                  pathname === link.href
+                    ? "#a78bfa"
+                    : "rgba(255,255,255,0.7)",
+                background:
+                  pathname === link.href
+                    ? "rgba(124,58,237,0.15)"
+                    : "transparent",
+                transition: "all 0.2s ease",
+              }}
+            >
+              {link.icon}
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Auth buttons */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          {!isPending && (
+            <>
+              {session ? (
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                  <div
+                    style={{
+                      width: "34px",
+                      height: "34px",
+                      borderRadius: "50%",
+                      background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
+                      fontSize: "0.85rem",
+                      color: "white",
+                    }}
+                  >
+                    {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+                  </div>
+                  <button
+                    onClick={handleSignOut}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.4rem",
+                      padding: "0.5rem 1rem",
+                      borderRadius: "0.5rem",
+                      background: "rgba(239,68,68,0.1)",
+                      border: "1px solid rgba(239,68,68,0.2)",
+                      color: "#f87171",
+                      fontSize: "0.85rem",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    <LogOut size={15} />
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <Link href="/auth/signin">
+                    <button
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.4rem",
+                        padding: "0.5rem 1.2rem",
+                        borderRadius: "0.5rem",
+                        background: "transparent",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                        color: "rgba(255,255,255,0.8)",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <LogIn size={15} />
+                      Sign In
+                    </button>
+                  </Link>
+                  <Link href="/auth/signup">
+                    <button className="btn-primary" style={{ padding: "0.5rem 1.2rem", fontSize: "0.85rem" }}>
+                      <span>Get Started</span>
+                    </button>
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "white",
+              cursor: "pointer",
+              padding: "0.25rem",
+            }}
+            className="md:hidden"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div
+          style={{
+            background: "rgba(10, 10, 26, 0.98)",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            padding: "1rem 1.5rem",
+          }}
+          className="md:hidden"
+        >
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.75rem 0",
+                textDecoration: "none",
+                color: pathname === link.href ? "#a78bfa" : "rgba(255,255,255,0.8)",
+                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                fontWeight: 500,
+              }}
+            >
+              {link.icon}
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+}
