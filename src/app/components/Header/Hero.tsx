@@ -7,29 +7,29 @@ import { ArrowRight, Sparkles, Brain, Target, Zap } from "lucide-react";
 const FEATURES = [
   {
     icon: <Brain size={28} />,
-    title: "AI-Powered Roadmaps",
-    desc: "Let AI craft a personalised learning path tailored to your goals, timeline, and skill level.",
+    title: "Structured Roadmaps",
+    desc: "Build a detailed learning path tailored to your goals, timeline, and skill level.",
     color: "#7c3aed",
     glow: "rgba(124,58,237,0.3)",
   },
   {
     icon: <Target size={28} />,
-    title: "Smart Schedule Generation",
-    desc: "Break any topic into daily micro-goals. Our AI builds a structured day-by-day plan automatically.",
+    title: "Smart Schedule Planning",
+    desc: "Break any topic into daily study milestones and manage your time effectively.",
     color: "#06b6d4",
     glow: "rgba(6,182,212,0.3)",
   },
   {
     icon: <Zap size={28} />,
-    title: "Context-Aware Chat",
-    desc: "Ask questions directly tied to your roadmap. The AI remembers your study history across sessions.",
+    title: "Study Resources & Notes",
+    desc: "Access curated resources and organize study materials directly within your roadmaps.",
     color: "#10b981",
     glow: "rgba(16,185,129,0.3)",
   },
   {
     icon: <Sparkles size={28} />,
     title: "Progress Analytics",
-    desc: "Track your learning milestones with beautiful charts showing hours studied and topics mastered.",
+    desc: "Track your learning milestones with beautiful charts showing study hours and topics mastered.",
     color: "#ec4899",
     glow: "rgba(236,72,153,0.3)",
   },
@@ -37,14 +37,14 @@ const FEATURES = [
 
 const STEPS = [
   { num: "01", title: "Create a Roadmap", desc: "Define your subject, difficulty, and deadline." },
-  { num: "02", title: "Generate Schedule", desc: "AI crafts a day-by-day study plan for you." },
-  { num: "03", title: "Start Studying", desc: "Follow structured tasks and track your progress." },
-  { num: "04", title: "Ask the AI", desc: "Chat with an assistant that knows your roadmap context." },
+  { num: "02", title: "Plan your Schedule", desc: "Structure your study plan day-by-day to stay on track." },
+  { num: "03", title: "Start Studying", desc: "Follow structured tasks and check off completed units." },
+  { num: "04", title: "Track Progress", desc: "View your stats and master new skills step-by-step." },
 ];
 
 const STATS = [
   { value: "10K+", label: "Study Roadmaps" },
-  { value: "50K+", label: "AI Schedules Generated" },
+  { value: "100K+", label: "Tasks Completed" },
   { value: "98%", label: "Student Satisfaction" },
   { value: "150+", label: "Subjects Covered" },
 ];
@@ -145,7 +145,7 @@ export default function Hero() {
             }}
           >
             <Sparkles size={14} />
-            Powered by Gemini AI
+            StudyMate Study Companion
           </div>
 
           <h1
@@ -177,7 +177,7 @@ export default function Hero() {
               </span>
             </span>
             <br />
-            with AI-Guided Study Plans
+            with Guided Study Plans
           </h1>
 
           <p
@@ -189,7 +189,7 @@ export default function Hero() {
               lineHeight: 1.75,
             }}
           >
-            StudyMate AI generates personalised roadmaps, builds intelligent daily schedules, and gives you an AI assistant that truly understands your learning journey.
+            StudyMate helps you generate personalized roadmaps, build detailed daily schedules, and track your learning progress throughout your journey.
           </p>
 
           <div
@@ -222,7 +222,7 @@ export default function Hero() {
         <div style={{ textAlign: "center" }}>
           <h2 className="section-title">Everything You Need to Learn Faster</h2>
           <p className="section-subtitle">
-            A complete AI-powered platform built for modern learners who want results.
+            A complete study tracking platform built for modern learners who want results.
           </p>
         </div>
 
@@ -384,7 +384,7 @@ export default function Hero() {
         <div style={{ textAlign: "center", marginTop: "4rem" }}>
           <h2 className="section-title">Ready to Level Up?</h2>
           <p style={{ color: "rgba(255,255,255,0.55)", marginBottom: "2rem", fontSize: "1.05rem" }}>
-            Join thousands of students already studying smarter with StudyMate AI.
+            Join thousands of students already studying smarter with StudyMate.
           </p>
           <Link href="/explore">
             <button className="btn-primary" id="cta-explore-bottom">

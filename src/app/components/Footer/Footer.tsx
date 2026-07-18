@@ -73,7 +73,7 @@ export default function Footer() {
                   backgroundClip: "text",
                 }}
               >
-                StudyMate AI
+                StudyMate
               </span>
             </Link>
             <p
@@ -84,7 +84,7 @@ export default function Footer() {
                 maxWidth: "260px",
               }}
             >
-              Your intelligent study companion. Build roadmaps, generate schedules, and chat with an AI that understands your learning.
+              Your intelligent study companion. Build roadmaps, track schedules, and structure your learning.
             </p>
             <div
               style={{
@@ -173,10 +173,10 @@ export default function Footer() {
           }}
         >
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.8rem" }}>
-            © {new Date().getFullYear()} StudyMate AI. All rights reserved.
+            © {new Date().getFullYear()} StudyMate. All rights reserved.
           </p>
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.8rem" }}>
-            Built with ♥ using Next.js & Gemini AI
+            Built with ♥ using Next.js
           </p>
         </div>
       </div>
