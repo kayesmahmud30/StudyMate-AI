@@ -13,6 +13,7 @@ export interface Roadmap {
   description: string;
   createdAt: string;
   isPublic: boolean;
+  imageUrl?: string;
 }
 
 export type RoadmapFormData = Omit<Roadmap, "_id" | "userId" | "createdAt">;

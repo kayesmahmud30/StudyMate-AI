@@ -44,8 +44,22 @@ function RoadmapCard({
 }) {
   return (
     <div className="glass" style={{ borderRadius: "1rem", padding: "1.5rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem" }}>
-        <div style={{ flex: 1 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}>
+        {roadmap.imageUrl && (
+          <img
+            src={roadmap.imageUrl}
+            alt={roadmap.title}
+            style={{
+              width: "70px",
+              height: "70px",
+              objectFit: "cover",
+              borderRadius: "0.75rem",
+              border: "1px solid rgba(255,255,255,0.1)",
+              flexShrink: 0,
+            }}
+          />
+        )}
+        <div style={{ flex: 1, minWidth: "200px" }}>
           <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.25rem" }}>{roadmap.title}</h3>
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", gap: "0.3rem" }}>

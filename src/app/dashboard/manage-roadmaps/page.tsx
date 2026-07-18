@@ -145,8 +145,22 @@ export default function ManageRoadmapsPage() {
                 className="glass"
                 style={{ borderRadius: "1rem", padding: "1.5rem" }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
-                  <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}>
+                  {rm.imageUrl && (
+                    <img
+                      src={rm.imageUrl}
+                      alt={rm.title}
+                      style={{
+                        width: "60px",
+                        height: "60px",
+                        objectFit: "cover",
+                        borderRadius: "0.75rem",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                  <div style={{ flex: 1, minWidth: "200px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
                       <h3 style={{ fontWeight: 700, fontSize: "1rem" }}>{rm.title}</h3>
                       <DifficultyBadge level={rm.difficulty} />

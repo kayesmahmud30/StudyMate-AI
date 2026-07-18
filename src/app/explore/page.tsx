@@ -38,95 +38,109 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
   return (
     <div
       className="card glass-hover"
-      style={{ display: "flex", flexDirection: "column", height: "100%" }}
+      style={{ display: "flex", flexDirection: "column", height: "100%", padding: 0, overflow: "hidden" }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
-        <span
+      {roadmap.imageUrl && (
+        <img
+          src={roadmap.imageUrl}
+          alt={roadmap.title}
           style={{
-            fontSize: "0.75rem",
-            color: "rgba(255,255,255,0.4)",
-            background: "rgba(255,255,255,0.06)",
-            padding: "0.2rem 0.6rem",
-            borderRadius: "999px",
-            border: "1px solid rgba(255,255,255,0.08)",
+            width: "100%",
+            height: "160px",
+            objectFit: "cover",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+          }}
+        />
+      )}
+      <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flex: 1 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
+          <span
+            style={{
+              fontSize: "0.75rem",
+              color: "rgba(255,255,255,0.4)",
+              background: "rgba(255,255,255,0.06)",
+              padding: "0.2rem 0.6rem",
+              borderRadius: "999px",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          >
+            {roadmap.subject}
+          </span>
+          <DifficultyBadge level={roadmap.difficulty} />
+        </div>
+
+        <h3 style={{ fontWeight: 700, fontSize: "1.05rem", marginBottom: "0.5rem", lineHeight: 1.3 }}>
+          {roadmap.title}
+        </h3>
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "rgba(255,255,255,0.5)",
+            lineHeight: 1.65,
+            flex: 1,
+            marginBottom: "1.25rem",
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
           }}
         >
-          {roadmap.subject}
-        </span>
-        <DifficultyBadge level={roadmap.difficulty} />
-      </div>
+          {roadmap.shortDescription}
+        </p>
 
-      <h3 style={{ fontWeight: 700, fontSize: "1.05rem", marginBottom: "0.5rem", lineHeight: 1.3 }}>
-        {roadmap.title}
-      </h3>
-      <p
-        style={{
-          fontSize: "0.85rem",
-          color: "rgba(255,255,255,0.5)",
-          lineHeight: 1.65,
-          flex: 1,
-          marginBottom: "1.25rem",
-          display: "-webkit-box",
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
-        }}
-      >
-        {roadmap.shortDescription}
-      </p>
-
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.25rem" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem" }}>
-          <Clock size={13} />
-          {roadmap.estimatedHours}h estimated
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.25rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem" }}>
+            <Clock size={13} />
+            {roadmap.estimatedHours}h estimated
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem" }}>
+            <BookOpen size={13} />
+            {new Date(roadmap.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+          </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem" }}>
-          <BookOpen size={13} />
-          {new Date(roadmap.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-        </div>
-      </div>
 
-      <div style={{ display: "flex", gap: "0.6rem" }}>
-        <Link href={`/explore/${roadmap._id}`} style={{ flex: 1 }}>
+        <div style={{ display: "flex", gap: "0.6rem" }}>
+          <Link href={`/explore/${roadmap._id}`} style={{ flex: 1 }}>
+            <button
+              id={`btn-view-${roadmap._id}`}
+              style={{
+                width: "100%",
+                padding: "0.6rem",
+                borderRadius: "0.6rem",
+                background: "rgba(124,58,237,0.15)",
+                border: "1px solid rgba(124,58,237,0.3)",
+                color: "#a78bfa",
+                fontWeight: 600,
+                fontSize: "0.8rem",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.4rem",
+                transition: "all 0.2s",
+              }}
+            >
+              View Details <ArrowRight size={14} />
+            </button>
+          </Link>
           <button
-            id={`btn-view-${roadmap._id}`}
+            id={`btn-fork-${roadmap._id}`}
+            onClick={() => onFork(roadmap._id)}
             style={{
-              width: "100%",
-              padding: "0.6rem",
+              padding: "0.6rem 0.9rem",
               borderRadius: "0.6rem",
-              background: "rgba(124,58,237,0.15)",
-              border: "1px solid rgba(124,58,237,0.3)",
-              color: "#a78bfa",
+              background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+              border: "none",
+              color: "white",
               fontWeight: 600,
               fontSize: "0.8rem",
               cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.4rem",
               transition: "all 0.2s",
             }}
           >
-            View Details <ArrowRight size={14} />
+            Add to Mine
           </button>
-        </Link>
-        <button
-          id={`btn-fork-${roadmap._id}`}
-          onClick={() => onFork(roadmap._id)}
-          style={{
-            padding: "0.6rem 0.9rem",
-            borderRadius: "0.6rem",
-            background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-            border: "none",
-            color: "white",
-            fontWeight: 600,
-            fontSize: "0.8rem",
-            cursor: "pointer",
-            transition: "all 0.2s",
-          }}
-        >
-          Add to Mine
-        </button>
+        </div>
       </div>
     </div>
   );

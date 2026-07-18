@@ -138,46 +138,60 @@ export default function RoadmapDetailPage() {
         </Link>
 
         {/* Header card */}
-        <div className="glass" style={{ borderRadius: "1.25rem", padding: "2.5rem", marginBottom: "1.5rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem", marginBottom: "1.5rem" }}>
-            <div>
-              <div style={{ display: "flex", gap: "0.6rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "rgba(255,255,255,0.4)",
-                    background: "rgba(255,255,255,0.06)",
-                    padding: "0.2rem 0.8rem",
-                    borderRadius: "999px",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                  }}
-                >
-                  {roadmap.subject}
-                </span>
-                <DifficultyBadge level={roadmap.difficulty} />
+        <div className="glass" style={{ borderRadius: "1.25rem", marginBottom: "1.5rem", overflow: "hidden" }}>
+          {roadmap.imageUrl && (
+            <img
+              src={roadmap.imageUrl}
+              alt={roadmap.title}
+              style={{
+                width: "100%",
+                height: "300px",
+                objectFit: "cover",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            />
+          )}
+          <div style={{ padding: "2.5rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem", marginBottom: "1.5rem" }}>
+              <div>
+                <div style={{ display: "flex", gap: "0.6rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      color: "rgba(255,255,255,0.4)",
+                      background: "rgba(255,255,255,0.06)",
+                      padding: "0.2rem 0.8rem",
+                      borderRadius: "999px",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                    }}
+                  >
+                    {roadmap.subject}
+                  </span>
+                  <DifficultyBadge level={roadmap.difficulty} />
+                </div>
+                <h1 style={{ fontSize: "clamp(1.5rem, 4vw, 2.25rem)", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+                  {roadmap.title}
+                </h1>
               </div>
-              <h1 style={{ fontSize: "clamp(1.5rem, 4vw, 2.25rem)", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-                {roadmap.title}
-              </h1>
+
+              <button
+                id="btn-start-studying"
+                onClick={handleFork}
+                disabled={forking}
+                className="btn-primary"
+                style={{ flexShrink: 0 }}
+              >
+                <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  {forking ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> : <GitFork size={16} />}
+                  {forking ? "Adding…" : "Start Studying"}
+                </span>
+              </button>
             </div>
 
-            <button
-              id="btn-start-studying"
-              onClick={handleFork}
-              disabled={forking}
-              className="btn-primary"
-              style={{ flexShrink: 0 }}
-            >
-              <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                {forking ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> : <GitFork size={16} />}
-                {forking ? "Adding…" : "Start Studying"}
-              </span>
-            </button>
+            <p style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.75, fontSize: "1rem" }}>
+              {roadmap.shortDescription}
+            </p>
           </div>
-
-          <p style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.75, fontSize: "1rem" }}>
-            {roadmap.shortDescription}
-          </p>
         </div>
 
         {/* Info grid */}

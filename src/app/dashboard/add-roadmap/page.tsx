@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
-import { ArrowLeft, BookOpen, Loader2, Plus } from "lucide-react";
+import { ArrowLeft, BookOpen, Loader2, Plus, Image as ImageIcon, Upload, X } from "lucide-react";
 import Link from "next/link";
 import type { RoadmapFormData } from "@/lib/types";
 import { getAuthToken } from "@/lib/getAuthToken";
@@ -43,6 +43,8 @@ export default function AddRoadmapPage() {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     if (!isPending && !session) router.push("/auth/signin");
@@ -61,6 +63,31 @@ export default function AddRoadmapPage() {
     },
   });
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      if (!result.success) throw new Error(result.error);
+
+      setImageUrl(result.url);
+      toast.success("Image uploaded successfully! 📸");
+    } catch (err: any) {
+      toast.error(err.message ?? "Image upload failed");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const onSubmit = async (data: RoadmapFormData) => {
     setLoading(true);
     try {
@@ -71,7 +98,10 @@ export default function AddRoadmapPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          imageUrl: imageUrl ?? undefined,
+        }),
       });
       const result = await res.json();
       if (!result.success) throw new Error(result.error);
@@ -210,6 +240,97 @@ export default function AddRoadmapPage() {
                 style={{ ...inputStyle(!!errors.description), resize: "vertical", lineHeight: 1.6 }}
               />
               {errors.description && <p style={{ color: "#f87171", fontSize: "0.75rem", marginTop: "0.3rem" }}>{errors.description.message}</p>}
+            </div>
+
+            {/* Image Upload */}
+            <div>
+              <label style={labelStyle}>Roadmap Cover Image</label>
+              <div
+                style={{
+                  border: "1px dashed rgba(255,255,255,0.15)",
+                  borderRadius: "0.75rem",
+                  padding: "1.5rem",
+                  textAlign: "center",
+                  background: "rgba(255,255,255,0.02)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "relative",
+                  cursor: "pointer",
+                }}
+              >
+                {uploadingImage ? (
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+                    <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "#7c3aed" }} />
+                    <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.6)" }}>Uploading image to Cloudinary...</span>
+                  </div>
+                ) : imageUrl ? (
+                  <div style={{ position: "relative", width: "100%", maxWidth: "300px" }}>
+                    <img
+                      src={imageUrl}
+                      alt="Roadmap Cover"
+                      style={{
+                        width: "100%",
+                        height: "150px",
+                        objectFit: "cover",
+                        borderRadius: "0.5rem",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setImageUrl(null);
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: "-8px",
+                        right: "-8px",
+                        background: "#ef4444",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "50%",
+                        width: "24px",
+                        height: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Upload size={24} style={{ color: "rgba(255,255,255,0.4)" }} />
+                    <span style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.6)" }}>
+                      Click or drag an image here to upload
+                    </span>
+                    <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)" }}>
+                      PNG, JPG, JPEG up to 5MB
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      style={{ display: "none" }}
+                    />
+                  </label>
+                )}
+              </div>
             </div>
 
             {/* Public toggle */}
