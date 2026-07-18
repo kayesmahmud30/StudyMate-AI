@@ -17,6 +17,7 @@ import {
   X,
   MessageSquare,
   BookOpen,
+  Camera,
 } from "lucide-react";
 import type { Roadmap, Schedule, ChatMessage } from "@/lib/types";
 
@@ -103,6 +104,38 @@ export default function DashboardPage() {
   const [roadmaps, setRoadmaps] = useState<Roadmap[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingAvatar(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      if (!result.success) throw new Error(result.error);
+
+      const { error } = await authClient.updateUser({
+        image: result.url,
+      });
+      if (error) throw new Error(error.message);
+
+      toast.success("Profile picture updated! 📸");
+      router.refresh();
+    } catch (err: any) {
+      toast.error(err.message ?? "Failed to update profile picture");
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
 
   useEffect(() => {
     if (!isPending && !session) router.push("/auth/signin");
@@ -148,25 +181,84 @@ export default function DashboardPage() {
     <div style={{ minHeight: "100vh", padding: "7rem 1.5rem 4rem" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem", marginBottom: "2.5rem" }}>
-          <div>
-            <h1 style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 900, letterSpacing: "-0.03em", marginBottom: "0.25rem" }}>
-              Welcome back,{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #a78bfa, #06b6d4)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {session?.user?.name?.split(" ")[0] ?? "Learner"}
-              </span>{" "}
-              👋
-            </h1>
-            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.9rem" }}>
-              Track your learning progress and manage your study roadmaps.
-            </p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem", marginBottom: "2.5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+            {/* User Avatar with Hover Upload */}
+            <div
+              className="avatar-container"
+              style={{
+                position: "relative",
+                width: "68px",
+                height: "68px",
+                borderRadius: "50%",
+                overflow: "hidden",
+                cursor: "pointer",
+                border: "2px solid rgba(124,58,237,0.3)",
+                flexShrink: 0,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              }}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {uploadingAvatar ? (
+                <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: "#a78bfa" }} />
+                </div>
+              ) : (
+                <div
+                  className="avatar-hover-overlay"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "rgba(0,0,0,0.5)",
+                    opacity: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "opacity 0.2s ease",
+                  }}
+                >
+                  <Camera size={18} style={{ color: "white" }} />
+                </div>
+              )}
+              {session?.user?.image ? (
+                <img
+                  src={session.user.image}
+                  alt={session.user.name ?? "Avatar"}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              ) : (
+                <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg, #7c3aed, #4f46e5)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "1.4rem", color: "white" }}>
+                  {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+                </div>
+              )}
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleAvatarChange}
+                accept="image/*"
+                style={{ display: "none" }}
+              />
+            </div>
+
+            <div>
+              <h1 style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 900, letterSpacing: "-0.03em", marginBottom: "0.25rem" }}>
+                Welcome back,{" "}
+                <span
+                  style={{
+                    background: "linear-gradient(135deg, #a78bfa, #06b6d4)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  {session?.user?.name?.split(" ")[0] ?? "Learner"}
+                </span>{" "}
+                👋
+              </h1>
+              <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.9rem" }}>
+                Track your learning progress and manage your study roadmaps.
+              </p>
+            </div>
           </div>
           <div style={{ display: "flex", gap: "0.75rem" }}>
             <Link href="/dashboard/manage-roadmaps">
@@ -250,7 +342,10 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .avatar-container:hover .avatar-hover-overlay { opacity: 1 !important; }
+      `}</style>
     </div>
   );
 }

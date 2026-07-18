@@ -143,22 +143,36 @@ export default function Nav() {
             <>
               {session ? (
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <div
-                    style={{
-                      width: "34px",
-                      height: "34px",
-                      borderRadius: "50%",
-                      background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: 700,
-                      fontSize: "0.85rem",
-                      color: "white",
-                    }}
-                  >
-                    {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
-                  </div>
+                  {session.user?.image ? (
+                    <img
+                      src={session.user.image}
+                      alt={session.user.name ?? "Avatar"}
+                      style={{
+                        width: "34px",
+                        height: "34px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: "34px",
+                        height: "34px",
+                        borderRadius: "50%",
+                        background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
+                        color: "white",
+                      }}
+                    >
+                      {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+                    </div>
+                  )}
                   <button
                     onClick={handleSignOut}
                     style={{

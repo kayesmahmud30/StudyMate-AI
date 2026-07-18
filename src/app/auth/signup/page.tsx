@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
-import { BookOpen, User, Mail, Lock, Eye, EyeOff, UserPlus } from "lucide-react";
+import { BookOpen, User, Mail, Lock, Eye, EyeOff, UserPlus, Camera, Loader2 } from "lucide-react";
 
 interface SignUpForm {
   name: string;
@@ -18,6 +18,8 @@ interface SignUpForm {
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const router = useRouter();
 
   const {
@@ -29,6 +31,31 @@ export default function SignUpPage() {
 
   const password = watch("password");
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      if (!result.success) throw new Error(result.error);
+
+      setImageUrl(result.url);
+      toast.success("Profile picture uploaded! 📸");
+    } catch (err: any) {
+      toast.error(err.message ?? "Profile picture upload failed");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const onSubmit = async (data: SignUpForm) => {
     setLoading(true);
     try {
@@ -36,6 +63,7 @@ export default function SignUpPage() {
         email: data.email,
         password: data.password,
         name: data.name,
+        image: imageUrl ?? undefined,
       });
       if (error) throw new Error(error.message);
       toast.success("Account created! Welcome to StudyMate AI 🚀");
@@ -138,6 +166,49 @@ export default function SignUpPage() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {/* Profile Image Upload */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "1rem" }}>
+              <div
+                style={{
+                  position: "relative",
+                  width: "84px",
+                  height: "84px",
+                  borderRadius: "50%",
+                  border: "2px dashed rgba(255,255,255,0.15)",
+                  background: "rgba(255,255,255,0.02)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                }}
+                onClick={() => document.getElementById("avatar-upload-signup")?.click()}
+              >
+                {uploadingImage ? (
+                  <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "#a78bfa" }} />
+                ) : imageUrl ? (
+                  <img src={imageUrl} alt="Avatar Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.25rem" }}>
+                    <Camera size={22} style={{ color: "rgba(255,255,255,0.4)" }} />
+                    <span style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.5)", fontWeight: 600 }}>Avatar</span>
+                  </div>
+                )}
+              </div>
+              <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", marginTop: "0.5rem" }}>
+                Add profile picture (optional)
+              </span>
+              <input
+                id="avatar-upload-signup"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: "none" }}
+              />
+            </div>
+
             {/* Name */}
             <div>
               <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "rgba(255,255,255,0.6)", display: "block", marginBottom: "0.4rem" }}>
