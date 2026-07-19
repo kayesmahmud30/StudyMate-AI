@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Header/Nav";
 import Footer from "./components/Footer/Footer";
 import AIChatAssistant from "./components/GlobalChat/AIChatAssistant";
 import { Providers } from "./providers";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
+const inter = {
+  variable: "font-sans",
+};
 
 export const metadata: Metadata = {
   title: "StudyMate — Your Personal Study Companion",

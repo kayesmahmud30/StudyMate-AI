@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { BookOpen, Menu, X, LayoutDashboard, Compass, LogOut, LogIn, User, Plus } from "lucide-react";
+import { BookOpen, Menu, X, LayoutDashboard, Compass, LogOut, LogIn, User, Plus, Info } from "lucide-react";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,6 +29,9 @@ export default function Nav() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/explore", label: "Explore", icon: <Compass size={16} /> },
+    ...(!session
+      ? [{ href: "/about", label: "About", icon: <Info size={16} /> }]
+      : []),
     ...(session
       ? [
           { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={16} /> },
