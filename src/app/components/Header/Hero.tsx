@@ -207,6 +207,13 @@ export default function Hero() {
             margin-bottom: 1.75rem !important;
             line-height: 1.6 !important;
           }
+        @media (min-width: 1200px) {
+          .hero-features-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
+          .hero-stats-banner {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
         }
       `}</style>
 

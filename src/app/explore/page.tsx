@@ -343,9 +343,8 @@ export default function ExplorePage() {
           </div>
         ) : (
           <div
+            className="explore-grid"
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
               gap: "1.5rem",
             }}
           >
@@ -356,7 +355,17 @@ export default function ExplorePage() {
         )}
       </div>
 
-      <style>{``}</style>
+      <style>{`
+        .explore-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+        @media (min-width: 1200px) {
+          .explore-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

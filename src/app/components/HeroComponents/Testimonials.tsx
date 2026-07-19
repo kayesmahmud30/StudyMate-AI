@@ -65,9 +65,8 @@ const Testimonials = () => {
       </div>
 
       <div
+        className="testimonials-grid"
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: "2rem",
         }}
       >
@@ -156,6 +155,18 @@ const Testimonials = () => {
           </div>
         ))}
       </div>
+
+      <style>{`
+        .testimonials-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        @media (min-width: 1200px) {
+          .testimonials-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

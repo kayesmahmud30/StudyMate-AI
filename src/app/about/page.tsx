@@ -115,6 +115,13 @@ export default function AboutPage() {
           .about-btn-wrap a, .about-btn-wrap button {
             width: 100% !important;
           }
+        @media (min-width: 1200px) {
+          .about-card-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
+          .about-works-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
         }
       `}</style>
 

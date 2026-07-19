@@ -96,9 +96,8 @@ export default function Stats({ data }: StatsProps) {
     <div>
       {/* Stat Cards */}
       <div
+        className="stats-cards-grid"
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "1rem",
           marginBottom: "2rem",
         }}
@@ -273,6 +272,17 @@ export default function Stats({ data }: StatsProps) {
           )}
         </div>
       </div>
+      <style>{`
+        .stats-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        @media (min-width: 1200px) {
+          .stats-cards-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
