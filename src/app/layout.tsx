@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Header/Nav";
 import Footer from "./components/Footer/Footer";
+import AIChatAssistant from "./components/GlobalChat/AIChatAssistant";
 import { Providers } from "./providers";
 
 const inter = Inter({
@@ -34,6 +35,7 @@ export default function RootLayout({
         <Providers>
           <Nav />
           <main className="min-h-screen">{children}</main>
+          <AIChatAssistant />
           <Footer />
         </Providers>
       </body>
