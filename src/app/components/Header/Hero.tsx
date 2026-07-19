@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles, Brain, Target, Zap } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 const FEATURES = [
   {
@@ -58,6 +59,7 @@ const TYPING_STRINGS = [
 ];
 
 export default function Hero() {
+  const { data: session } = authClient.useSession();
   const [typingIndex, setTypingIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -446,20 +448,155 @@ export default function Hero() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div style={{ textAlign: "center", marginTop: "4rem" }}>
-          <h2 className="section-title">Ready to Level Up?</h2>
-          <p style={{ color: "rgba(255,255,255,0.55)", marginBottom: "2rem", fontSize: "1.05rem" }}>
-            Join thousands of students already studying smarter with StudyMate.
-          </p>
-          <Link href="/explore" style={{ display: "inline-block" }}>
-            <button className="btn-primary hero-btn-nowrap" id="cta-explore-bottom">
-              <span style={{ display: "flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap" }}>
-                Browse All Roadmaps
-                <ArrowRight size={18} />
+        {/* Expanded CTA Section */}
+        <div style={{ marginTop: "5rem" }}>
+          <div
+            className="glass"
+            style={{
+              borderRadius: "2rem",
+              padding: "4rem 2rem",
+              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+              border: "1px solid rgba(124, 58, 237, 0.25)",
+              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+            }}
+          >
+            {/* Soft inner glow */}
+            <div
+              style={{
+                position: "absolute",
+                top: "-50%",
+                left: "-50%",
+                width: "200%",
+                height: "200%",
+                background: "radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, rgba(0, 0, 0, 0) 70%)",
+                pointerEvents: "none",
+                zIndex: 0,
+              }}
+            />
+
+            <div style={{ position: "relative", zIndex: 1, maxWidth: "700px", margin: "0 auto" }}>
+              <span
+                style={{
+                  background: "rgba(124, 58, 237, 0.12)",
+                  color: "#a78bfa",
+                  padding: "0.4rem 1rem",
+                  borderRadius: "99px",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  border: "1px solid rgba(124, 58, 237, 0.25)",
+                  display: "inline-block",
+                  marginBottom: "1.5rem",
+                }}
+              >
+                Elevate Your Learning
               </span>
-            </button>
-          </Link>
+
+              <h2
+                style={{
+                  fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
+                  fontWeight: 900,
+                  letterSpacing: "-0.03em",
+                  marginBottom: "1rem",
+                  lineHeight: 1.2,
+                }}
+              >
+                Ready to Level Up?
+              </h2>
+
+              <p
+                style={{
+                  color: "rgba(255, 255, 255, 0.65)",
+                  marginBottom: "2.5rem",
+                  fontSize: "1.1rem",
+                  lineHeight: 1.6,
+                }}
+              >
+                Join thousands of students already studying smarter. Build structured roadmaps, set realistic deadlines, and master any subject with the power of AI guidance.
+              </p>
+
+              {/* Benefits list */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "1.5rem",
+                  flexWrap: "wrap",
+                  marginBottom: "2.5rem",
+                  fontSize: "0.9rem",
+                  color: "rgba(255, 255, 255, 0.8)",
+                  fontWeight: 500,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+                    <circle cx="10" cy="10" r="10" fill="#10b981" fillOpacity="0.15"/>
+                    <path d="M6 10L9 13L14 7" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span>AI-Powered Scheduling</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+                    <circle cx="10" cy="10" r="10" fill="#10b981" fillOpacity="0.15"/>
+                    <path d="M6 10L9 13L14 7" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span>Progress Analytics</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+                    <circle cx="10" cy="10" r="10" fill="#10b981" fillOpacity="0.15"/>
+                    <path d="M6 10L9 13L14 7" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span>100% Free to Use</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                {!session ? (
+                  <>
+                    <Link href="/auth/signup">
+                      <button className="btn-primary" style={{ padding: "0.75rem 1.75rem", fontSize: "0.95rem" }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          Get Started Free
+                          <ArrowRight size={18} />
+                        </span>
+                      </button>
+                    </Link>
+                    <Link href="/explore">
+                      <button className="btn-outline" style={{ padding: "0.75rem 1.75rem", fontSize: "0.95rem" }}>
+                        Explore Roadmaps
+                      </button>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/dashboard">
+                      <button className="btn-primary" style={{ padding: "0.75rem 1.75rem", fontSize: "0.95rem" }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          Go to Dashboard
+                          <ArrowRight size={18} />
+                        </span>
+                      </button>
+                    </Link>
+                    <Link href="/dashboard/add-roadmap">
+                      <button className="btn-outline" style={{ padding: "0.75rem 1.75rem", fontSize: "0.95rem" }}>
+                        Create Roadmap
+                      </button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

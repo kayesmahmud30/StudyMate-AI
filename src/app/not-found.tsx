@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Compass, LayoutDashboard } from "lucide-react";
+import { BiSupport } from "react-icons/bi";
 
 export default function NotFound() {
   return (
@@ -133,7 +134,7 @@ export default function NotFound() {
             </button>
           </Link>
 
-          <Link href="/explore">
+          <Link href="/contact">
             <button
               className="btn-outline"
               style={{
@@ -143,8 +144,8 @@ export default function NotFound() {
                 padding: "0.8rem 1.6rem",
               }}
             >
-              <Compass size={18} />
-              Explore Paths
+              <BiSupport size={18} />
+              Contact Support
             </button>
           </Link>
         </motion.div>
