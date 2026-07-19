@@ -42,10 +42,75 @@ const QNA = () => {
   };
 
   return (
-    <section style={{ padding: "4rem 1.5rem", maxWidth: "800px", margin: "0 auto" }}>
+    <section className="qna-section">
+      <style>{`
+        .qna-section {
+          padding: 4rem 1.5rem;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+        .qna-icon-wrap {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 42px;
+          height: 42px;
+          borderRadius: 50%;
+          background: rgba(124,58,237,0.15);
+          border: 1px solid rgba(124,58,237,0.3);
+          color: #a78bfa;
+          margin-bottom: 0.85rem;
+        }
+        .qna-title {
+          font-size: clamp(1.5rem, 5vw, 2rem);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          color: white;
+          line-height: 1.25;
+          margin: 0;
+        }
+        .qna-btn {
+          width: 100%;
+          padding: 1.25rem 1.5rem;
+          border: none;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          text-align: left;
+          cursor: pointer;
+          font-size: 0.95rem;
+          font-weight: 600;
+          outline: none;
+          gap: 1rem;
+        }
+        .qna-answer {
+          overflow: hidden;
+          transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+          color: rgba(255, 255, 255, 0.65);
+          font-size: 0.875rem;
+          line-height: 1.6;
+        }
+        @media (max-width: 600px) {
+          .qna-section {
+            padding: 3rem 1rem !important;
+          }
+          .qna-btn {
+            padding: 1rem 1.1rem !important;
+            font-size: 0.9rem !important;
+          }
+          .qna-answer {
+            font-size: 0.825rem !important;
+          }
+        }
+      `}</style>
+
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 800, letterSpacing: "-0.02em", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
-          <HelpCircle size={24} color="#7c3aed" /> Frequently Asked Questions
+        <div className="qna-icon-wrap">
+          <HelpCircle size={20} />
+        </div>
+        <h2 className="qna-title">
+          Frequently Asked Questions
         </h2>
         <p style={{ color: "rgba(255, 255, 255, 0.45)", fontSize: "0.9rem", marginTop: "0.5rem" }}>
           Quick answers to help you get the most out of StudyMate.
@@ -69,42 +134,29 @@ const QNA = () => {
               {/* Question Header */}
               <button
                 onClick={() => toggleItem(index)}
+                className="qna-btn"
                 style={{
-                  width: "100%",
-                  padding: "1.1rem 1.4rem",
                   background: isOpen ? "rgba(124, 58, 237, 0.05)" : "transparent",
-                  border: "none",
-                  color: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  textAlign: "left",
-                  cursor: "pointer",
-                  fontSize: "0.95rem",
-                  fontWeight: 600,
-                  outline: "none",
-                  gap: "1rem",
                 }}
               >
                 <span>{item.question}</span>
-                <span style={{ color: isOpen ? "#a78bfa" : "rgba(255,255,255,0.45)" }}>
+                <span style={{ color: isOpen ? "#a78bfa" : "rgba(255,255,255,0.45)", display: "flex", alignItems: "center" }}>
                   {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </span>
               </button>
 
               {/* Answer Content */}
               <div
+                className="qna-answer"
                 style={{
-                  maxHeight: isOpen ? "200px" : "0",
-                  overflow: "hidden",
-                  transition: "max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease",
-                  padding: isOpen ? "0 1.4rem 1.25rem" : "0 1.4rem",
+                  maxHeight: isOpen ? "250px" : "0",
+                  padding: isOpen ? "0 1.5rem 1.25rem" : "0 1.5rem",
                   color: "rgba(255, 255, 255, 0.65)",
-                  fontSize: "0.875rem",
-                  lineHeight: 1.6,
                 }}
               >
-                {item.answer}
+                <div style={{ paddingTop: isOpen ? "0.25rem" : "0" }}>
+                  {item.answer}
+                </div>
               </div>
             </div>
           );

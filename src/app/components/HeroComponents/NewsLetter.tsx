@@ -88,7 +88,7 @@ const NewsLetter = () => {
           </p>
 
           {!subscribed && (
-            <form onSubmit={handleSubscribe} style={{ display: "flex", gap: "0.5rem", maxWidth: "480px", margin: "0 auto", flexWrap: "wrap" }}>
+            <form onSubmit={handleSubscribe} className="newsletter-form">
               <input
                 type="email"
                 placeholder="Enter your email address"
@@ -97,7 +97,7 @@ const NewsLetter = () => {
                 disabled={loading}
                 style={{
                   flex: 1,
-                  minWidth: "220px",
+                  minWidth: 0,
                   padding: "0.65rem 1rem",
                   borderRadius: "0.6rem",
                   background: "rgba(255, 255, 255, 0.05)",
@@ -106,6 +106,8 @@ const NewsLetter = () => {
                   fontSize: "0.875rem",
                   outline: "none",
                   transition: "all 0.2s",
+                  width: "100%",
+                  boxSizing: "border-box" as const,
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.borderColor = "rgba(124, 58, 237, 0.6)";
@@ -119,7 +121,7 @@ const NewsLetter = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-primary"
+                className="btn-primary newsletter-btn"
                 style={{
                   padding: "0.65rem 1.25rem",
                   fontSize: "0.875rem",
@@ -129,6 +131,8 @@ const NewsLetter = () => {
                   gap: "0.5rem",
                   cursor: "pointer",
                   borderRadius: "0.6rem",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 {loading ? (
@@ -146,6 +150,17 @@ const NewsLetter = () => {
 
         <style>{`
           @keyframes spin { to { transform: rotate(360deg); } }
+          .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 480px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+          }
+          @media (max-width: 500px) {
+            .newsletter-form { flex-direction: column; }
+            .newsletter-btn { width: 100% !important; }
+          }
         `}</style>
       </div>
     </section>

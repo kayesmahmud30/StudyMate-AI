@@ -77,6 +77,14 @@ export default function Nav() {
           border-top: 1px solid rgba(255, 255, 255, 0.08);
           padding: 1rem 1.5rem;
         }
+        .nav-header-auth {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+        .nav-mobile-auth {
+          display: none;
+        }
 
         @media (max-width: 1024px) {
           .nav-desktop-links {
@@ -98,6 +106,16 @@ export default function Nav() {
           }
           .nav-mobile-menu {
             display: none !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .nav-header-auth {
+            display: none !important;
+          }
+          .nav-mobile-auth {
+            display: flex !important;
+            flex-direction: column;
+            gap: 0.75rem;
           }
         }
       `}</style>
@@ -167,6 +185,8 @@ export default function Nav() {
                 color: pathname === link.href ? "#a78bfa" : "rgba(255,255,255,0.7)",
                 background: pathname === link.href ? "rgba(124,58,237,0.15)" : "transparent",
                 transition: "all 0.2s ease",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
             >
               {link.icon}
@@ -175,97 +195,102 @@ export default function Nav() {
           ))}
         </div>
 
-        {/* Auth buttons */}
+        {/* Right side items (Auth & Mobile Toggle) */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          {!isPending && (
-            <>
-              {session ? (
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  {session.user?.image ? (
-                    <img
-                      src={session.user.image}
-                      alt={session.user.name ?? "Avatar"}
-                      style={{
-                        width: "34px",
-                        height: "34px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                        border: "1px solid rgba(255,255,255,0.15)",
-                      }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: "34px",
-                        height: "34px",
-                        borderRadius: "50%",
-                        background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: 700,
-                        fontSize: "0.85rem",
-                        color: "white",
-                      }}
-                    >
-                      {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
-                    </div>
-                  )}
-                  <button
-                    onClick={handleSignOut}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.4rem",
-                      padding: "0.5rem 1rem",
-                      borderRadius: "0.5rem",
-                      background: "rgba(239,68,68,0.1)",
-                      border: "1px solid rgba(239,68,68,0.2)",
-                      color: "#f87171",
-                      fontSize: "0.85rem",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    <LogOut size={15} />
-                    Sign Out
-                  </button>
-                </div>
-              ) : (
-                <div style={{ display: "flex", gap: "0.5rem" }}>
-                  <Link href="/auth/signin">
+          {/* Auth buttons - hidden on mobile, visible on desktop/tablet */}
+          <div className="nav-header-auth">
+            {!isPending && (
+              <>
+                {session ? (
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    {session.user?.image ? (
+                      <img
+                        src={session.user.image}
+                        alt={session.user.name ?? "Avatar"}
+                        style={{
+                          width: "34px",
+                          height: "34px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                          border: "1px solid rgba(255,255,255,0.15)",
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: "34px",
+                          height: "34px",
+                          borderRadius: "50%",
+                          background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: 700,
+                          fontSize: "0.85rem",
+                          color: "white",
+                        }}
+                      >
+                        {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+                      </div>
+                    )}
                     <button
+                      onClick={handleSignOut}
                       style={{
                         display: "flex",
                         alignItems: "center",
                         gap: "0.4rem",
-                        padding: "0.5rem 1.2rem",
+                        padding: "0.5rem 1rem",
                         borderRadius: "0.5rem",
-                        background: "transparent",
-                        border: "1px solid rgba(255,255,255,0.15)",
-                        color: "rgba(255,255,255,0.8)",
+                        background: "rgba(239,68,68,0.1)",
+                        border: "1px solid rgba(239,68,68,0.2)",
+                        color: "#f87171",
                         fontSize: "0.85rem",
                         fontWeight: 600,
                         cursor: "pointer",
                         transition: "all 0.2s ease",
+                        whiteSpace: "nowrap",
+                        flexShrink: 0,
                       }}
                     >
-                      <LogIn size={15} />
-                      Sign In
+                      <LogOut size={15} />
+                      Sign Out
                     </button>
-                  </Link>
-                  <Link href="/auth/signup">
-                    <button className="btn-primary" style={{ padding: "0.5rem 1.2rem", fontSize: "0.85rem" }}>
-                      <span>Get Started</span>
-                    </button>
-                  </Link>
-                </div>
-              )}
-            </>
-          )}
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <Link href="/auth/signin">
+                      <button
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.4rem",
+                          padding: "0.5rem 1.2rem",
+                          borderRadius: "0.5rem",
+                          background: "transparent",
+                          border: "1px solid rgba(255,255,255,0.15)",
+                          color: "rgba(255,255,255,0.8)",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        <LogIn size={15} />
+                        Sign In
+                      </button>
+                    </Link>
+                    <Link href="/auth/signup">
+                      <button className="btn-primary" style={{ padding: "0.5rem 1.2rem", fontSize: "0.85rem" }}>
+                        <span>Get Started</span>
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile menu toggle — always visible on small screens */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="nav-mobile-toggle"
@@ -293,12 +318,117 @@ export default function Nav() {
                 color: pathname === link.href ? "#a78bfa" : "rgba(255,255,255,0.8)",
                 borderBottom: "1px solid rgba(255,255,255,0.05)",
                 fontWeight: 500,
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
             >
               {link.icon}
               {link.label}
             </Link>
           ))}
+
+          {/* Mobile Auth buttons */}
+          <div className="nav-mobile-auth">
+            {!isPending && (
+              <>
+                {session ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", width: "100%" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                      {session.user?.image ? (
+                        <img
+                          src={session.user.image}
+                          alt={session.user.name ?? "Avatar"}
+                          style={{
+                            width: "34px",
+                            height: "34px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            border: "1px solid rgba(255,255,255,0.15)",
+                          }}
+                        />
+                      ) : (
+                        <div
+                          style={{
+                            width: "34px",
+                            height: "34px",
+                            borderRadius: "50%",
+                            background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontWeight: 700,
+                            fontSize: "0.85rem",
+                            color: "white",
+                          }}
+                        >
+                          {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+                        </div>
+                      )}
+                      <span style={{ fontSize: "0.9rem", color: "rgba(255,255,255,0.8)", fontWeight: 500 }}>
+                        {session.user?.name}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleSignOut();
+                        setMenuOpen(false);
+                      }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "0.4rem",
+                        padding: "0.65rem 1rem",
+                        borderRadius: "0.5rem",
+                        background: "rgba(239,68,68,0.1)",
+                        border: "1px solid rgba(239,68,68,0.2)",
+                        color: "#f87171",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        width: "100%",
+                        whiteSpace: "nowrap",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <LogOut size={15} />
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", width: "100%" }}>
+                    <Link href="/auth/signin" onClick={() => setMenuOpen(false)}>
+                      <button
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "0.4rem",
+                          padding: "0.65rem 1.2rem",
+                          borderRadius: "0.5rem",
+                          background: "transparent",
+                          border: "1px solid rgba(255,255,255,0.15)",
+                          color: "rgba(255,255,255,0.8)",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          width: "100%",
+                        }}
+                      >
+                        <LogIn size={15} />
+                        Sign In
+                      </button>
+                    </Link>
+                    <Link href="/auth/signup" onClick={() => setMenuOpen(false)} style={{ width: "100%" }}>
+                      <button className="btn-primary" style={{ padding: "0.65rem 1.2rem", fontSize: "0.85rem", width: "100%" }}>
+                        <span>Get Started</span>
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       )}
     </nav>

@@ -315,7 +315,7 @@ export default function DashboardPage() {
 
           {roadmaps.length === 0 ? (
             <div
-              className="glass"
+              className="glass dash-empty-card"
               style={{ borderRadius: "1rem", padding: "3rem", textAlign: "center" }}
             >
               <BookOpen size={48} style={{ color: "rgba(255,255,255,0.1)", margin: "0 auto 1rem" }} />
@@ -323,14 +323,14 @@ export default function DashboardPage() {
               <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.875rem", marginBottom: "1.5rem" }}>
                 Create your first roadmap or explore the community library.
               </p>
-              <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
+              <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
                 <Link href="/dashboard/add-roadmap">
-                  <button className="btn-primary">
-                    <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Plus size={16} /> Create Roadmap</span>
+                  <button className="btn-primary" style={{ whiteSpace: "nowrap" }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "nowrap", whiteSpace: "nowrap" }}><Plus size={16} /> Create Roadmap</span>
                   </button>
                 </Link>
                 <Link href="/explore">
-                  <button className="btn-outline">Explore Library</button>
+                  <button className="btn-outline" style={{ whiteSpace: "nowrap" }}>Explore Library</button>
                 </Link>
               </div>
             </div>
@@ -350,6 +350,9 @@ export default function DashboardPage() {
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
         .avatar-container:hover .avatar-hover-overlay { opacity: 1 !important; }
+        @media (max-width: 480px) {
+          .dash-empty-card { padding: 2rem 1.25rem !important; }
+        }
       `}</style>
     </div>
   );

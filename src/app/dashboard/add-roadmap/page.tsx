@@ -173,6 +173,16 @@ export default function AddRoadmapPage() {
 
   return (
     <div style={{ minHeight: "100vh", padding: "7rem 1.5rem 4rem" }}>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-desc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; gap: 0.75rem; }
+        @media (max-width: 520px) {
+          .form-2col { grid-template-columns: 1fr !important; }
+          .form-desc-header { flex-direction: column; align-items: flex-start; }
+          .form-desc-header button { width: 100%; justify-content: center; }
+        }
+      `}</style>
       <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         <Link href="/dashboard">
           <button style={{ display: "flex", alignItems: "center", gap: "0.4rem", background: "none", border: "none", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: "0.875rem", marginBottom: "2rem" }}>
@@ -205,7 +215,7 @@ export default function AddRoadmapPage() {
             </div>
 
             {/* Subject + Difficulty */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <div className="form-2col">
               <div>
                 <label style={labelStyle}>Subject *</label>
                 <select
@@ -234,7 +244,7 @@ export default function AddRoadmapPage() {
             </div>
 
             {/* Deadline + Estimated Hours */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <div className="form-2col">
               <div>
                 <label style={labelStyle}>Target Deadline *</label>
                 <input
@@ -279,7 +289,7 @@ export default function AddRoadmapPage() {
 
             {/* Full Description */}
             <div>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.4rem" }}>
+              <div className="form-desc-header">
                 <label style={{ ...labelStyle, marginBottom: 0 }}>Full Description *</label>
                 <button
                   id="btn-generate-ai-desc"
@@ -440,22 +450,26 @@ export default function AddRoadmapPage() {
                   Share this roadmap with the community on the Explore page.
                 </p>
               </div>
-              <label style={{ position: "relative", display: "inline-block", width: "48px", height: "26px" }}>
+              <label style={{ position: "relative", display: "inline-block", width: "48px", height: "26px", flexShrink: 0 }}>
                 <input
                   id="toggle-public"
                   type="checkbox"
                   {...register("isPublic")}
-                  style={{ opacity: 0, width: 0, height: 0 }}
+                  style={{ position: "absolute", opacity: 0, width: 0, height: 0, pointerEvents: "none" }}
                 />
                 <span
                   style={{
                     position: "absolute",
-                    inset: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
                     background: watch("isPublic") ? "linear-gradient(135deg, #7c3aed, #4f46e5)" : "rgba(255,255,255,0.1)",
                     borderRadius: "26px",
                     cursor: "pointer",
                     transition: "background 0.3s",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    overflow: "hidden",
                   }}
                 >
                   <span
@@ -482,7 +496,7 @@ export default function AddRoadmapPage() {
               className="btn-primary"
               style={{ width: "100%", marginTop: "0.5rem" }}
             >
-              <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", flexWrap: "nowrap", whiteSpace: "nowrap" }}>
                 {loading ? (
                   <><Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> Creating…</>
                 ) : (
@@ -494,7 +508,7 @@ export default function AddRoadmapPage() {
         </form>
       </div>
 
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{``}</style>
     </div>
   );
 }

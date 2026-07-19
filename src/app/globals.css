@@ -29,6 +29,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -38,6 +39,7 @@
     min-height: 100vh;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -245,4 +247,24 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(124, 58, 237, 0.8);
+}
+
+/* Toastify Mobile Fixes */
+.Toastify__toast-container {
+  z-index: 999999 !important;
+}
+@media (max-width: 480px) {
+  .Toastify__toast-container {
+    width: calc(100% - 32px) !important;
+    padding: 0 !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 16px !important;
+    position: fixed !important;
+  }
+  .Toastify__toast {
+    margin-bottom: 0.5rem !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+  }
 }

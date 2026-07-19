@@ -53,7 +53,7 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
         />
       )}
       <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flex: 1 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem", flexWrap: "nowrap" }}>
           <span
             style={{
               fontSize: "0.75rem",
@@ -62,11 +62,18 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
               padding: "0.2rem 0.6rem",
               borderRadius: "999px",
               border: "1px solid rgba(255,255,255,0.08)",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              minWidth: 0,
+              flexShrink: 1,
             }}
           >
             {roadmap.subject}
           </span>
-          <DifficultyBadge level={roadmap.difficulty} />
+          <div style={{ flexShrink: 0 }}>
+            <DifficultyBadge level={roadmap.difficulty} />
+          </div>
         </div>
 
         <h3 style={{ fontWeight: 700, fontSize: "1.05rem", marginBottom: "0.5rem", lineHeight: 1.3 }}>
@@ -100,7 +107,7 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
         </div>
 
         <div style={{ display: "flex", gap: "0.6rem" }}>
-          <Link href={`/explore/${roadmap._id}`} style={{ flex: 1 }}>
+          <Link href={`/explore/${roadmap._id}`} style={{ flex: 1, minWidth: 0 }}>
             <button
               id={`btn-view-${roadmap._id}`}
               style={{
@@ -118,6 +125,7 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
                 justifyContent: "center",
                 gap: "0.4rem",
                 transition: "all 0.2s",
+                whiteSpace: "nowrap",
               }}
             >
               View Details <ArrowRight size={14} />
@@ -136,6 +144,8 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
               fontSize: "0.8rem",
               cursor: "pointer",
               transition: "all 0.2s",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             Add to Mine
@@ -215,6 +225,41 @@ export default function ExplorePage() {
 
   return (
     <div style={{ minHeight: "100vh", padding: "7rem 1.5rem 4rem" }}>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .explore-filter-bar {
+          display: flex;
+          flex-direction: column;
+          gap: 0.85rem;
+        }
+        .explore-filter-row {
+          display: flex;
+          gap: 0.75rem;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+        .explore-filter-icon {
+          display: flex;
+          align-items: center;
+          color: rgba(255,255,255,0.3);
+          flex-shrink: 0;
+        }
+        .explore-selects-grid {
+          display: flex;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+          flex: 1;
+        }
+        .explore-selects-grid select {
+          flex: 1 1 140px;
+          min-width: 0;
+        }
+        @media (max-width: 480px) {
+          .explore-filter-icon { display: none; }
+          .explore-selects-grid { gap: 0.5rem; }
+          .explore-selects-grid select { flex: 1 1 calc(50% - 0.25rem); min-width: 0; font-size: 0.8rem; }
+        }
+      `}</style>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
@@ -226,20 +271,16 @@ export default function ExplorePage() {
 
         {/* Filters */}
         <div
-          className="glass"
+          className="glass explore-filter-bar"
           style={{
             borderRadius: "1rem",
             padding: "1.25rem",
             marginBottom: "2rem",
-            display: "flex",
-            gap: "1rem",
-            flexWrap: "wrap",
-            alignItems: "center",
           }}
         >
-          {/* Search */}
-          <div style={{ flex: "1 1 240px", position: "relative" }}>
-            <Search size={16} style={{ position: "absolute", left: "0.9rem", top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.3)" }} />
+          {/* Search row */}
+          <div style={{ position: "relative", width: "100%" }}>
+            <Search size={16} style={{ position: "absolute", left: "0.9rem", top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.3)", pointerEvents: "none" }} />
             <input
               id="input-search"
               type="text"
@@ -248,31 +289,34 @@ export default function ExplorePage() {
               onChange={(e) => setSearch(e.target.value)}
               style={{
                 width: "100%",
-                padding: "0.6rem 0.9rem 0.6rem 2.5rem",
+                padding: "0.65rem 0.9rem 0.65rem 2.5rem",
                 borderRadius: "0.6rem",
                 background: "rgba(255,255,255,0.05)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 color: "white",
                 fontSize: "0.85rem",
                 outline: "none",
+                boxSizing: "border-box",
               }}
             />
           </div>
 
-          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
-            <Filter size={15} style={{ color: "rgba(255,255,255,0.3)" }} />
-
-            <select id="select-subject" value={subject} onChange={(e) => setSubject(e.target.value)} style={selectStyle as any}>
-              {SUBJECTS.map((s) => <option key={s} value={s} style={{ background: "#0f0f2e" }}>{s}</option>)}
-            </select>
-
-            <select id="select-difficulty" value={difficulty} onChange={(e) => setDifficulty(e.target.value)} style={selectStyle as any}>
-              {DIFFICULTIES.map((d) => <option key={d} value={d} style={{ background: "#0f0f2e" }}>{d}</option>)}
-            </select>
-
-            <select id="select-sort" value={sort} onChange={(e) => setSort(e.target.value)} style={selectStyle as any}>
-              {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value} style={{ background: "#0f0f2e" }}>{o.label}</option>)}
-            </select>
+          {/* Selects row */}
+          <div className="explore-filter-row">
+            <div className="explore-filter-icon">
+              <Filter size={15} />
+            </div>
+            <div className="explore-selects-grid">
+              <select id="select-subject" value={subject} onChange={(e) => setSubject(e.target.value)} style={selectStyle as any}>
+                {SUBJECTS.map((s) => <option key={s} value={s} style={{ background: "#0f0f2e" }}>{s}</option>)}
+              </select>
+              <select id="select-difficulty" value={difficulty} onChange={(e) => setDifficulty(e.target.value)} style={selectStyle as any}>
+                {DIFFICULTIES.map((d) => <option key={d} value={d} style={{ background: "#0f0f2e" }}>{d}</option>)}
+              </select>
+              <select id="select-sort" value={sort} onChange={(e) => setSort(e.target.value)} style={selectStyle as any}>
+                {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value} style={{ background: "#0f0f2e" }}>{o.label}</option>)}
+              </select>
+            </div>
           </div>
         </div>
 
@@ -311,7 +355,7 @@ export default function ExplorePage() {
         )}
       </div>
 
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{``}</style>
     </div>
   );
 }

@@ -111,6 +111,8 @@ export default function AIChatAssistant() {
     animate(y, targetY, { type: "spring", stiffness: 240, damping: 20 });
   };
 
+  const isMobile = windowSize.width < 768;
+
   return (
     <>
       {/* Injected CSS styles inside component */}
@@ -136,26 +138,42 @@ export default function AIChatAssistant() {
         .chat-scrollbar::-webkit-scrollbar-thumb:hover {
           background: rgba(124, 58, 237, 0.4);
         }
-        @media (max-width: 500px) {
-          .chat-window-responsive {
+        .chat-window-wrapper {
+          position: fixed;
+          bottom: 96px;
+          right: 24px;
+          z-index: 9998;
+          pointer-events: none;
+        }
+        .chat-trigger-wrapper {
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          z-index: 9999;
+          width: 58px;
+          height: 58px;
+        }
+        @media (max-width: 640px) {
+          .chat-window-wrapper {
+            bottom: 84px !important;
+            right: 16px !important;
+            left: 16px !important;
             width: calc(100vw - 32px) !important;
-            height: calc(100vh - 120px) !important;
-            bottom: 80px !important;
+          }
+          .chat-window-responsive {
+            width: 100% !important;
+            height: 65vh !important;
+            max-height: 520px !important;
+          }
+          .chat-trigger-wrapper {
+            bottom: 16px !important;
             right: 16px !important;
           }
         }
       `}</style>
 
       {/* Layer 1: Chat Modal (Fixed in bottom-right corner) */}
-      <div
-        style={{
-          position: "fixed",
-          bottom: "96px",
-          right: "24px",
-          zIndex: 9998,
-          pointerEvents: "none",
-        }}
-      >
+      <div className="chat-window-wrapper">
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -500,18 +518,9 @@ export default function AIChatAssistant() {
       </div>
 
       {/* Layer 2: Draggable Toggle Button (Fixed in bottom-right by default, can be dragged anywhere and snaps) */}
-      <div
-        style={{
-          position: "fixed",
-          bottom: "24px",
-          right: "24px",
-          zIndex: 9999,
-          width: "58px",
-          height: "58px",
-        }}
-      >
+      <div className="chat-trigger-wrapper">
         <motion.div
-          drag
+          drag={!isMobile}
           dragConstraints={{
             left: -maxXTravel,
             right: 0,
@@ -527,7 +536,7 @@ export default function AIChatAssistant() {
             position: "absolute",
             width: "58px",
             height: "58px",
-            cursor: "grab",
+            cursor: !isMobile ? "grab" : "pointer",
           }}
           whileDrag={{ cursor: "grabbing" }}
         >

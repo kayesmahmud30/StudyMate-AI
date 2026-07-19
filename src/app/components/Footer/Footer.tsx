@@ -28,16 +28,23 @@ export default function Footer() {
         padding: "4rem 1.5rem 2rem",
       }}
     >
+      <style>{`
+        .footer-grid {
+          display: grid;
+          grid-template-columns: 1.5fr repeat(3, 1fr);
+          gap: 3rem;
+          margin-bottom: 3rem;
+        }
+        @media (max-width: 768px) {
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+        }
+      `}</style>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         {/* Top */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.5fr repeat(3, 1fr)",
-            gap: "3rem",
-            marginBottom: "3rem",
-          }}
-        >
+        <div className="footer-grid">
           {/* Brand */}
           <div>
             <Link

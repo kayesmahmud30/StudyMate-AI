@@ -199,7 +199,7 @@ export default function ManageRoadmapsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0, alignItems: "center" }}>
+                  <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0, alignItems: "center", flexWrap: "wrap" }}>
                     {/* Toggle public */}
                     <button
                       id={`btn-toggle-public-${rm._id}`}

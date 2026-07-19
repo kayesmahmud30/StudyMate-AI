@@ -86,8 +86,129 @@ export default function Hero() {
 
   return (
     <div>
+      <style>{`
+        .hero-btn-wrap {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        .hero-btn-nowrap {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          white-space: nowrap;
+        }
+        .hero-features-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 1.5rem;
+        }
+        .hero-works-flex {
+          display: flex;
+          gap: 0;
+          justify-content: center;
+          flex-wrap: wrap;
+          position: relative;
+        }
+        .hero-stats-banner {
+          background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.08));
+          border: 1px solid rgba(124,58,237,0.25);
+          border-radius: 1.5rem;
+          padding: 3rem 2rem;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 2rem;
+          text-align: center;
+        }
+        .hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.4rem 1.2rem;
+          border-radius: 999px;
+          background: rgba(124,58,237,0.15);
+          border: 1px solid rgba(124,58,237,0.3);
+          margin-bottom: 2rem;
+          font-size: 0.85rem;
+          color: #a78bfa;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+        .hero-title {
+          font-size: clamp(2.25rem, 6.5vw, 4.5rem);
+          font-weight: 900;
+          letter-spacing: -0.04em;
+          line-height: 1.1;
+          margin-bottom: 1.5rem;
+          color: white;
+        }
+        .hero-desc {
+          font-size: clamp(1rem, 3vw, 1.2rem);
+          color: rgba(255,255,255,0.65);
+          max-width: 600px;
+          margin: 0 auto 2.5rem;
+          line-height: 1.75;
+        }
+        @media (max-width: 600px) {
+          .hero-btn-wrap {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0.75rem !important;
+          }
+          .hero-btn-wrap a, .hero-btn-wrap button {
+            width: 100% !important;
+          }
+          .hero-btn-nowrap {
+            width: 100% !important;
+          }
+          .hero-features-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.25rem !important;
+          }
+          .hero-works-flex {
+            flex-direction: column !important;
+            align-items: center !important;
+          }
+          .hero-works-flex > div {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding: 1.5rem 1rem !important;
+          }
+          .hero-stats-banner {
+            padding: 2rem 1.25rem !important;
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+          section {
+            padding: 3.5rem 1rem !important;
+          }
+          #hero-top-section {
+            padding: 5rem 1rem 3rem !important;
+          }
+          .hero-badge {
+            font-size: 0.75rem !important;
+            padding: 0.35rem 0.85rem !important;
+            margin-bottom: 1.25rem !important;
+            white-space: nowrap !important;
+          }
+          .hero-title {
+            font-size: 1.85rem !important;
+            line-height: 1.25 !important;
+            margin-bottom: 1rem !important;
+          }
+          .hero-desc {
+            font-size: 0.925rem !important;
+            margin-bottom: 1.75rem !important;
+            line-height: 1.6 !important;
+          }
+        }
+      `}</style>
+
       {/* ─── Hero Section ────────────────────────────────────────────────────── */}
       <section
+        id="hero-top-section"
         style={{
           minHeight: "100vh",
           display: "flex",
@@ -129,34 +250,12 @@ export default function Hero() {
 
         <div style={{ maxWidth: "860px", position: "relative", zIndex: 1 }}>
           {/* Pill badge */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.4rem 1.2rem",
-              borderRadius: "999px",
-              background: "rgba(124,58,237,0.15)",
-              border: "1px solid rgba(124,58,237,0.3)",
-              marginBottom: "2rem",
-              fontSize: "0.85rem",
-              color: "#a78bfa",
-              fontWeight: 600,
-            }}
-          >
+          <div className="hero-badge">
             <Sparkles size={14} />
             StudyMate Study Companion
           </div>
 
-          <h1
-            style={{
-              fontSize: "clamp(2.5rem, 7vw, 5rem)",
-              fontWeight: 900,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.05,
-              marginBottom: "1.5rem",
-            }}
-          >
+          <h1 className="hero-title">
             Master{" "}
             <span
               style={{
@@ -180,36 +279,21 @@ export default function Hero() {
             with Guided Study Plans
           </h1>
 
-          <p
-            style={{
-              fontSize: "1.2rem",
-              color: "rgba(255,255,255,0.65)",
-              maxWidth: "600px",
-              margin: "0 auto 2.5rem",
-              lineHeight: 1.75,
-            }}
-          >
+          <p className="hero-desc">
             StudyMate helps you generate personalized roadmaps, build detailed daily schedules, and track your learning progress throughout your journey.
           </p>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "1rem",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <Link href="/explore">
-              <button className="btn-primary" id="cta-explore">
-                <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <div className="hero-btn-wrap">
+            <Link href="/explore" style={{ display: "block" }}>
+              <button className="btn-primary hero-btn-nowrap" id="cta-explore">
+                <span style={{ display: "flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap" }}>
                   Explore Roadmaps
                   <ArrowRight size={18} />
                 </span>
               </button>
             </Link>
-            <Link href="/auth/signup">
-              <button className="btn-outline" id="cta-signup">
+            <Link href="/auth/signup" style={{ display: "block" }}>
+              <button className="btn-outline hero-btn-nowrap" id="cta-signup">
                 Start for Free
               </button>
             </Link>
@@ -226,13 +310,7 @@ export default function Hero() {
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "1.5rem",
-          }}
-        >
+        <div className="hero-features-grid">
           {FEATURES.map((f) => (
             <div
               key={f.title}
@@ -281,15 +359,7 @@ export default function Hero() {
           <h2 className="section-title">How It Works</h2>
           <p className="section-subtitle">Four simple steps to transform your study routine.</p>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "0",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              position: "relative",
-            }}
-          >
+          <div className="hero-works-flex">
             {STEPS.map((step, i) => (
               <div
                 key={step.num}
@@ -345,18 +415,7 @@ export default function Hero() {
 
       {/* ─── Stats Banner ────────────────────────────────────────────────────── */}
       <section style={{ padding: "5rem 1.5rem", maxWidth: "1200px", margin: "0 auto" }}>
-        <div
-          style={{
-            background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.08))",
-            border: "1px solid rgba(124,58,237,0.25)",
-            borderRadius: "1.5rem",
-            padding: "3rem 2rem",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-            gap: "2rem",
-            textAlign: "center",
-          }}
-        >
+        <div className="hero-stats-banner">
           {STATS.map((s) => (
             <div key={s.label}>
               <div
@@ -386,9 +445,9 @@ export default function Hero() {
           <p style={{ color: "rgba(255,255,255,0.55)", marginBottom: "2rem", fontSize: "1.05rem" }}>
             Join thousands of students already studying smarter with StudyMate.
           </p>
-          <Link href="/explore">
-            <button className="btn-primary" id="cta-explore-bottom">
-              <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <Link href="/explore" style={{ display: "inline-block" }}>
+            <button className="btn-primary hero-btn-nowrap" id="cta-explore-bottom">
+              <span style={{ display: "flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap" }}>
                 Browse All Roadmaps
                 <ArrowRight size={18} />
               </span>

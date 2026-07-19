@@ -39,7 +39,85 @@ export default function AboutPage() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", padding: "7.5rem 1.5rem 5rem", background: "var(--gradient-hero)", position: "relative", overflow: "hidden" }}>
+    <div className="about-container">
+      <style>{`
+        .about-container {
+          min-height: 100vh;
+          padding: 7.5rem 1.5rem 5rem;
+          background: var(--gradient-hero);
+          position: relative;
+          overflow: hidden;
+        }
+        .about-card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 2rem;
+          margin-bottom: 5rem;
+        }
+        .about-glass-card {
+          border-radius: 1.5rem;
+          padding: 3rem 2rem;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(124, 58, 237, 0.02));
+          margin-bottom: 5rem;
+        }
+        .about-works-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 2.5rem;
+        }
+        .about-cta-container {
+          text-align: center;
+          padding: 3.5rem 2rem;
+          border-radius: 1.5rem;
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1));
+          border: 1px solid rgba(124, 58, 237, 0.25);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .about-btn-wrap {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        .about-btn-nowrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          white-space: nowrap;
+          width: 100%;
+        }
+        @media (max-width: 600px) {
+          .about-container {
+            padding: 6rem 1rem 4rem !important;
+          }
+          .about-card-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.25rem !important;
+            margin-bottom: 3.5rem !important;
+          }
+          .about-glass-card {
+            padding: 2rem 1.1rem !important;
+            margin-bottom: 3.5rem !important;
+          }
+          .about-works-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.75rem !important;
+          }
+          .about-cta-container {
+            padding: 2.5rem 1.1rem !important;
+          }
+          .about-btn-wrap {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0.75rem !important;
+          }
+          .about-btn-wrap a, .about-btn-wrap button {
+            width: 100% !important;
+          }
+        }
+      `}</style>
+
       {/* Decorative Orbs */}
       <div
         style={{
@@ -135,12 +213,7 @@ export default function AboutPage() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "2rem",
-            marginBottom: "5rem",
-          }}
+          className="about-card-grid"
         >
           {features.map((feature, idx) => (
             <motion.div
@@ -196,13 +269,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="glass"
-          style={{
-            borderRadius: "1.5rem",
-            padding: "3rem 2rem",
-            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(124, 58, 237, 0.02))",
-            marginBottom: "5rem",
-          }}
+          className="glass about-glass-card"
         >
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <h2 style={{ fontSize: "1.75rem", fontWeight: 800, color: "white", marginBottom: "0.5rem" }}>
@@ -213,13 +280,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "2.5rem",
-            }}
-          >
+          <div className="about-works-grid">
             {[
               { step: "01", title: "Input Your Goal", text: "Tell the AI what you want to learn, your background level, and timeframe." },
               { step: "02", title: "Generate Roadmap", text: "Receive a tailored roadmap complete with key modules, topics, and external resources." },
@@ -254,14 +315,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          style={{
-            textAlign: "center",
-            padding: "3.5rem 2rem",
-            borderRadius: "1.5rem",
-            background: "linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1))",
-            border: "1px solid rgba(124, 58, 237, 0.25)",
-            boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
-          }}
+          className="about-cta-container"
         >
           <h2 style={{ fontSize: "1.75rem", fontWeight: 800, color: "white", marginBottom: "1rem" }}>
             Ready to accelerate your learning?
@@ -277,22 +331,15 @@ export default function AboutPage() {
           >
             Create your account today and generate your first roadmap using the power of AI.
           </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap" }}>
-            <Link href="/auth/signup">
-              <button
-                className="btn-primary"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}
-              >
+          <div className="about-btn-wrap">
+            <Link href="/auth/signup" style={{ display: "block" }}>
+              <button className="btn-primary about-btn-nowrap">
                 <span>Get Started Free</span>
                 <ArrowRight size={16} />
               </button>
             </Link>
-            <Link href="/explore">
-              <button className="btn-outline">Explore Roadmaps</button>
+            <Link href="/explore" style={{ display: "block" }}>
+              <button className="btn-outline about-btn-nowrap">Explore Roadmaps</button>
             </Link>
           </div>
         </motion.div>
