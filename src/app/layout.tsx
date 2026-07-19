@@ -4,6 +4,8 @@ import Nav from "./components/Header/Nav";
 import Footer from "./components/Footer/Footer";
 import AIChatAssistant from "./components/GlobalChat/AIChatAssistant";
 import { Providers } from "./providers";
+import QNA from "./components/HeroComponents/QNA";
+import NewsLetter from "./components/HeroComponents/NewsLetter";
 
 const inter = {
   variable: "font-sans",
@@ -33,6 +35,8 @@ export default function RootLayout({
           <Nav />
           <main className="min-h-screen">{children}</main>
           <AIChatAssistant />
+          <QNA />
+          <NewsLetter />
           <Footer />
         </Providers>
       </body>
