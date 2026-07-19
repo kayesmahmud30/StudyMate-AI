@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { BookOpen, Menu, X, LayoutDashboard, Compass, LogOut, LogIn } from "lucide-react";
+import { BookOpen, Menu, X, LayoutDashboard, Compass, LogOut, LogIn, User, Plus } from "lucide-react";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,7 +30,11 @@ export default function Nav() {
     { href: "/", label: "Home" },
     { href: "/explore", label: "Explore", icon: <Compass size={16} /> },
     ...(session
-      ? [{ href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={16} /> }]
+      ? [
+          { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={16} /> },
+          { href: "/dashboard/add-roadmap", label: "Add Roadmap", icon: <Plus size={16} /> },
+          { href: "/profile", label: "Profile", icon: <User size={16} /> },
+        ]
       : []),
   ];
 
@@ -43,14 +47,58 @@ export default function Nav() {
         right: 0,
         zIndex: 1000,
         transition: "all 0.3s ease",
-        background: scrolled
-          ? "rgba(10, 10, 26, 0.95)"
-          : "transparent",
+        background: scrolled ? "rgba(10, 10, 26, 0.95)" : "transparent",
         backdropFilter: scrolled ? "blur(20px)" : "none",
         borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
         padding: "0 1.5rem",
       }}
     >
+      <style>{`
+        .nav-desktop-links {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+        .nav-mobile-toggle {
+          display: none;
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          padding: 0.25rem;
+          align-items: center;
+          justify-content: center;
+        }
+        .nav-mobile-menu {
+          background: rgba(10, 10, 26, 0.98);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 1rem 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+          .nav-desktop-links {
+            display: none !important;
+          }
+          .nav-mobile-toggle {
+            display: flex !important;
+          }
+          .nav-mobile-menu {
+            display: block !important;
+          }
+        }
+        @media (min-width: 1025px) {
+          .nav-desktop-links {
+            display: flex !important;
+          }
+          .nav-mobile-toggle {
+            display: none !important;
+          }
+          .nav-mobile-menu {
+            display: none !important;
+          }
+        }
+      `}</style>
+
       <div
         style={{
           maxWidth: "1280px",
@@ -99,14 +147,7 @@ export default function Nav() {
         </Link>
 
         {/* Desktop nav links */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.25rem",
-          }}
-          className="hidden md:flex"
-        >
+        <div className="nav-desktop-links">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -120,14 +161,8 @@ export default function Nav() {
                 textDecoration: "none",
                 fontSize: "0.9rem",
                 fontWeight: 500,
-                color:
-                  pathname === link.href
-                    ? "#a78bfa"
-                    : "rgba(255,255,255,0.7)",
-                background:
-                  pathname === link.href
-                    ? "rgba(124,58,237,0.15)"
-                    : "transparent",
+                color: pathname === link.href ? "#a78bfa" : "rgba(255,255,255,0.7)",
+                background: pathname === link.href ? "rgba(124,58,237,0.15)" : "transparent",
                 transition: "all 0.2s ease",
               }}
             >
@@ -230,14 +265,7 @@ export default function Nav() {
           {/* Mobile menu toggle */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              background: "none",
-              border: "none",
-              color: "white",
-              cursor: "pointer",
-              padding: "0.25rem",
-            }}
-            className="md:hidden"
+            className="nav-mobile-toggle"
             aria-label="Toggle menu"
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -247,14 +275,7 @@ export default function Nav() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div
-          style={{
-            background: "rgba(10, 10, 26, 0.98)",
-            borderTop: "1px solid rgba(255,255,255,0.08)",
-            padding: "1rem 1.5rem",
-          }}
-          className="md:hidden"
-        >
+        <div className="nav-mobile-menu">
           {navLinks.map((link) => (
             <Link
               key={link.href}

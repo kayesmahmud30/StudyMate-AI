@@ -258,7 +258,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-            <Link href="/dashboard/profile">
+            <Link href="/profile">
               <button
                 className="btn-outline"
                 style={{ padding: "0.6rem 1.2rem", fontSize: "0.85rem", display: "flex", alignItems: "center", gap: "0.5rem" }}
