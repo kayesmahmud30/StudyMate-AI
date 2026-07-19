@@ -163,6 +163,9 @@ export default function ExplorePage() {
   const [subject, setSubject] = useState("All");
   const [difficulty, setDifficulty] = useState("All");
   const [sort, setSort] = useState("newest");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
 
   const { data: session } = authClient.useSession();
 
@@ -174,15 +177,28 @@ export default function ExplorePage() {
       if (subject !== "All") params.set("subject", subject);
       if (difficulty !== "All") params.set("difficulty", difficulty);
       params.set("sort", sort);
+      params.set("page", String(page));
+      params.set("limit", "8");
 
       const res = await fetch(`${SERVER_URL}/api/roadmaps?${params}`);
       const data = await res.json();
-      if (data.success) setRoadmaps(data.data);
+      if (data.success) {
+        setRoadmaps(data.data);
+        if (data.pagination) {
+          setTotalPages(data.pagination.pages || 1);
+          setTotalItems(data.pagination.total || 0);
+        }
+      }
     } catch {
       toast.error("Failed to load roadmaps");
     } finally {
       setLoading(false);
     }
+  }, [search, subject, difficulty, sort, page]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setPage(1);
   }, [search, subject, difficulty, sort]);
 
   useEffect(() => {
@@ -323,7 +339,7 @@ export default function ExplorePage() {
 
         {/* Results count */}
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-          {loading ? "Loading…" : `${roadmaps.length} roadmap${roadmaps.length !== 1 ? "s" : ""} found`}
+          {loading ? "Loading…" : `Showing ${roadmaps.length} of ${totalItems} roadmap${totalItems !== 1 ? "s" : ""} found`}
         </p>
 
         {/* Grid */}
@@ -351,6 +367,77 @@ export default function ExplorePage() {
             {roadmaps.map((r) => (
               <RoadmapCard key={r._id} roadmap={r} onFork={handleFork} />
             ))}
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {!loading && totalPages > 1 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "0.5rem",
+              marginTop: "3.5rem",
+            }}
+          >
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="btn-outline"
+              style={{
+                padding: "0.5rem 1rem",
+                fontSize: "0.85rem",
+                opacity: page === 1 ? 0.4 : 1,
+                cursor: page === 1 ? "not-allowed" : "pointer",
+                borderRadius: "0.5rem",
+              }}
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }).map((_, idx) => {
+              const pageNum = idx + 1;
+              const isActive = pageNum === page;
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => setPage(pageNum)}
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "0.5rem",
+                    border: isActive ? "none" : "1px solid rgba(255,255,255,0.1)",
+                    background: isActive
+                      ? "linear-gradient(135deg, #7c3aed, #4f46e5)"
+                      : "rgba(255,255,255,0.05)",
+                    color: "white",
+                    fontWeight: 600,
+                    fontSize: "0.85rem",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    boxShadow: isActive ? "0 4px 15px rgba(124,58,237,0.3)" : "none",
+                  }}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="btn-outline"
+              style={{
+                padding: "0.5rem 1rem",
+                fontSize: "0.85rem",
+                opacity: page === totalPages ? 0.4 : 1,
+                cursor: page === totalPages ? "not-allowed" : "pointer",
+                borderRadius: "0.5rem",
+              }}
+            >
+              Next
+            </button>
           </div>
         )}
       </div>
