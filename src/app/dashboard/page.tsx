@@ -168,9 +168,76 @@ export default function DashboardPage() {
 
   if (isPending || loading) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "#7c3aed" }}>
-        <Loader2 size={48} style={{ animation: "spin 1s linear infinite" }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <div style={{ minHeight: "100vh", padding: "7rem 1.5rem 4rem" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          {/* Header Skeleton */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem", marginBottom: "2.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+              <div className="skeleton" style={{ width: "68px", height: "68px", borderRadius: "50%" }} />
+              <div>
+                <div className="skeleton" style={{ width: "180px", height: "24px", borderRadius: "0.4rem", marginBottom: "0.4rem" }} />
+                <div className="skeleton" style={{ width: "120px", height: "16px", borderRadius: "0.25rem" }} />
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem" }}>
+              <div className="skeleton" style={{ width: "140px", height: "40px", borderRadius: "0.6rem" }} />
+              <div className="skeleton" style={{ width: "140px", height: "40px", borderRadius: "0.6rem" }} />
+            </div>
+          </div>
+
+          {/* Stats Cards Skeleton */}
+          <div className="stats-cards-grid-skeleton" style={{ gap: "1rem", marginBottom: "2.5rem" }}>
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div key={idx} className="glass" style={{ borderRadius: "1rem", padding: "1.5rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <div className="skeleton" style={{ width: "70px", height: "16px", borderRadius: "0.25rem" }} />
+                <div className="skeleton" style={{ width: "100px", height: "32px", borderRadius: "0.4rem" }} />
+              </div>
+            ))}
+          </div>
+
+          {/* Roadmaps List Skeleton */}
+          <div>
+            <div className="skeleton" style={{ width: "200px", height: "20px", borderRadius: "0.25rem", marginBottom: "1.5rem" }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <div key={idx} className="glass" style={{ borderRadius: "1rem", padding: "1.5rem" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}>
+                    <div className="skeleton" style={{ width: "70px", height: "70px", borderRadius: "0.75rem" }} />
+                    <div style={{ flex: 1 }}>
+                      <div className="skeleton" style={{ width: "180px", height: "20px", borderRadius: "0.3rem", marginBottom: "0.5rem" }} />
+                      <div style={{ display: "flex", gap: "0.75rem" }}>
+                        <div className="skeleton" style={{ width: "60px", height: "14px", borderRadius: "0.25rem" }} />
+                        <div className="skeleton" style={{ width: "80px", height: "14px", borderRadius: "0.25rem" }} />
+                      </div>
+                    </div>
+                    <div className="skeleton" style={{ width: "120px", height: "32px", borderRadius: "0.5rem" }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+          }
+          .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 37%, rgba(255,255,255,0.03) 63%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+          }
+          .stats-cards-grid-skeleton {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          }
+          @media (min-width: 1200px) {
+            .stats-cards-grid-skeleton {
+              grid-template-columns: repeat(4, 1fr) !important;
+            }
+          }
+        `}</style>
       </div>
     );
   }

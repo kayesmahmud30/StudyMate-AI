@@ -95,31 +95,29 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
           {roadmap.shortDescription}
         </p>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.25rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem" }}>
-            <Clock size={13} />
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem", whiteSpace: "nowrap" }}>
+            <Clock size={13} style={{ flexShrink: 0 }} />
             {roadmap.estimatedHours}h estimated
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem" }}>
-            <BookOpen size={13} />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)", fontSize: "0.8rem", whiteSpace: "nowrap" }}>
+            <BookOpen size={13} style={{ flexShrink: 0 }} />
             {new Date(roadmap.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "0.6rem" }}>
-          <Link href={`/explore/${roadmap._id}`} style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "auto" }}>
+          <Link href={`/explore/${roadmap._id}`} style={{ width: "100%" }}>
             <button
               id={`btn-view-${roadmap._id}`}
+              className="btn-outline"
               style={{
                 width: "100%",
                 padding: "0.6rem",
                 borderRadius: "0.6rem",
-                background: "rgba(124,58,237,0.15)",
-                border: "1px solid rgba(124,58,237,0.3)",
-                color: "#a78bfa",
-                fontWeight: 600,
                 fontSize: "0.8rem",
-                cursor: "pointer",
+                color: "#a78bfa",
+                borderColor: "rgba(124, 58, 237, 0.3)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -134,18 +132,12 @@ function RoadmapCard({ roadmap, onFork }: { roadmap: Roadmap; onFork: (id: strin
           <button
             id={`btn-fork-${roadmap._id}`}
             onClick={() => onFork(roadmap._id)}
+            className="btn-primary"
             style={{
-              padding: "0.6rem 0.9rem",
+              width: "100%",
+              padding: "0.6rem",
               borderRadius: "0.6rem",
-              background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-              border: "none",
-              color: "white",
-              fontWeight: 600,
               fontSize: "0.8rem",
-              cursor: "pointer",
-              transition: "all 0.2s",
-              whiteSpace: "nowrap",
-              flexShrink: 0,
             }}
           >
             Add to Mine
@@ -344,8 +336,48 @@ export default function ExplorePage() {
 
         {/* Grid */}
         {loading ? (
-          <div style={{ display: "flex", justifyContent: "center", padding: "5rem", color: "#7c3aed" }}>
-            <Loader2 size={40} style={{ animation: "spin 1s linear infinite" }} />
+          <div
+            className="explore-grid"
+            style={{
+              gap: "1.5rem",
+            }}
+          >
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="card"
+                style={{
+                  padding: 0,
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "380px",
+                  borderColor: "rgba(255,255,255,0.05)",
+                }}
+              >
+                <div className="skeleton" style={{ width: "100%", height: "160px" }} />
+                <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flex: 1, gap: "0.75rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div className="skeleton" style={{ width: "80px", height: "20px", borderRadius: "999px" }} />
+                    <div className="skeleton" style={{ width: "60px", height: "20px", borderRadius: "999px" }} />
+                  </div>
+                  <div className="skeleton" style={{ width: "90%", height: "24px", borderRadius: "0.4rem", marginTop: "0.25rem" }} />
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", flex: 1, marginTop: "0.25rem" }}>
+                    <div className="skeleton" style={{ width: "100%", height: "14px", borderRadius: "0.25rem" }} />
+                    <div className="skeleton" style={{ width: "95%", height: "14px", borderRadius: "0.25rem" }} />
+                    <div className="skeleton" style={{ width: "70%", height: "14px", borderRadius: "0.25rem" }} />
+                  </div>
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <div className="skeleton" style={{ width: "90px", height: "16px", borderRadius: "0.25rem" }} />
+                    <div className="skeleton" style={{ width: "95px", height: "16px", borderRadius: "0.25rem" }} />
+                  </div>
+                  <div style={{ display: "flex", gap: "0.6rem", marginTop: "0.5rem" }}>
+                    <div className="skeleton" style={{ flex: 1, height: "35px", borderRadius: "0.6rem" }} />
+                    <div className="skeleton" style={{ width: "85px", height: "35px", borderRadius: "0.6rem" }} />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : roadmaps.length === 0 ? (
           <div
@@ -443,6 +475,15 @@ export default function ExplorePage() {
       </div>
 
       <style>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        .skeleton {
+          background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 37%, rgba(255,255,255,0.03) 63%);
+          background-size: 200% 100%;
+          animation: shimmer 1.5s infinite linear;
+        }
         .explore-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

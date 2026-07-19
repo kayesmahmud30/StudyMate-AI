@@ -152,9 +152,78 @@ export default function ProfilePage() {
 
   if (isPending) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "#7c3aed" }}>
-        <Loader2 size={48} style={{ animation: "spin 1s linear infinite" }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <div style={{ minHeight: "100vh", padding: "7rem 1.5rem 4rem" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          {/* Back button skeleton */}
+          <div className="skeleton" style={{ width: "120px", height: "20px", borderRadius: "0.25rem", marginBottom: "2rem" }} />
+
+          {/* Grid Layout */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
+            {/* General Info Skeleton */}
+            <div className="glass" style={{ borderRadius: "1.5rem", padding: "2.5rem" }}>
+              <div className="skeleton" style={{ width: "150px", height: "24px", borderRadius: "0.4rem", marginBottom: "0.5rem" }} />
+              <div className="skeleton" style={{ width: "220px", height: "16px", borderRadius: "0.25rem", marginBottom: "2rem" }} />
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                {/* Avatar skeleton */}
+                <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+                  <div className="skeleton" style={{ width: "68px", height: "68px", borderRadius: "50%" }} />
+                  <div>
+                    <div className="skeleton" style={{ width: "100px", height: "16px", borderRadius: "0.25rem", marginBottom: "0.4rem" }} />
+                    <div className="skeleton" style={{ width: "150px", height: "12px", borderRadius: "0.25rem" }} />
+                  </div>
+                </div>
+
+                {/* Inputs */}
+                <div>
+                  <div className="skeleton" style={{ width: "80px", height: "14px", borderRadius: "0.25rem", marginBottom: "0.5rem" }} />
+                  <div className="skeleton" style={{ width: "100%", height: "40px", borderRadius: "0.6rem" }} />
+                </div>
+                <div>
+                  <div className="skeleton" style={{ width: "80px", height: "14px", borderRadius: "0.25rem", marginBottom: "0.5rem" }} />
+                  <div className="skeleton" style={{ width: "100%", height: "40px", borderRadius: "0.6rem" }} />
+                </div>
+
+                <div className="skeleton" style={{ width: "130px", height: "40px", borderRadius: "0.6rem", marginTop: "0.5rem" }} />
+              </div>
+            </div>
+
+            {/* Change Password Skeleton */}
+            <div className="glass" style={{ borderRadius: "1.5rem", padding: "2.5rem" }}>
+              <div className="skeleton" style={{ width: "150px", height: "24px", borderRadius: "0.4rem", marginBottom: "0.5rem" }} />
+              <div className="skeleton" style={{ width: "220px", height: "16px", borderRadius: "0.25rem", marginBottom: "2.25rem" }} />
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                <div>
+                  <div className="skeleton" style={{ width: "120px", height: "14px", borderRadius: "0.25rem", marginBottom: "0.5rem" }} />
+                  <div className="skeleton" style={{ width: "100%", height: "40px", borderRadius: "0.6rem" }} />
+                </div>
+                <div>
+                  <div className="skeleton" style={{ width: "100px", height: "14px", borderRadius: "0.25rem", marginBottom: "0.5rem" }} />
+                  <div className="skeleton" style={{ width: "100%", height: "40px", borderRadius: "0.6rem" }} />
+                </div>
+                <div>
+                  <div className="skeleton" style={{ width: "140px", height: "14px", borderRadius: "0.25rem", marginBottom: "0.5rem" }} />
+                  <div className="skeleton" style={{ width: "100%", height: "40px", borderRadius: "0.6rem" }} />
+                </div>
+
+                <div className="skeleton" style={{ width: "160px", height: "40px", borderRadius: "0.6rem", marginTop: "0.5rem" }} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+          }
+          .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 37%, rgba(255,255,255,0.03) 63%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+          }
+        `}</style>
       </div>
     );
   }
