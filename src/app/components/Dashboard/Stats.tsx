@@ -33,7 +33,18 @@ const DIFFICULTY_COLORS: Record<string, string> = {
 
 const SUBJECT_COLORS = ["#7c3aed", "#06b6d4", "#ec4899", "#10b981", "#fbbf24", "#f97316"];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayloadItem {
+  name: string;
+  value: number | string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string | number;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;
   return (
     <div
@@ -46,7 +57,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       }}
     >
       <p style={{ color: "#a78bfa", fontWeight: 700, marginBottom: "0.25rem" }}>{label}</p>
-      {payload.map((p: any) => (
+      {payload.map((p) => (
         <p key={p.name} style={{ color: "rgba(255,255,255,0.8)" }}>
           {p.name}: <strong>{p.value}</strong>
         </p>

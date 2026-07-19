@@ -277,7 +277,7 @@ export default function ContactPage() {
               marginBottom: "1rem",
             }}
           >
-            We'd Love to Hear From You
+            {"We'd Love to Hear From You"}
           </h1>
           <p
             style={{
@@ -288,7 +288,7 @@ export default function ContactPage() {
               lineHeight: 1.6,
             }}
           >
-            Have a question, feedback, or suggestion? Drop us a message and we'll get back to you shortly.
+           {"Have a question, feedback, or suggestion? Drop us a message and we'll get back to you shortly."}
           </p>
         </div>
 

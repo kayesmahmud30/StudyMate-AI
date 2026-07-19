@@ -47,7 +47,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, url: data.secure_url });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({ success: false, error: errorMsg }, { status: 500 });
   }
 }

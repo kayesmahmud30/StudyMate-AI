@@ -76,8 +76,10 @@ export default function Hero() {
       if (displayText.length > 0) {
         timeout = setTimeout(() => setDisplayText(displayText.slice(0, -1)), 40);
       } else {
-        setIsDeleting(false);
-        setTypingIndex((i) => (i + 1) % TYPING_STRINGS.length);
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+          setTypingIndex((i) => (i + 1) % TYPING_STRINGS.length);
+        }, 150);
       }
     }
 
