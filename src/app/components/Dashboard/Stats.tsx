@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import { BookOpen, Clock } from "lucide-react";
 
-interface StatData {
+export interface StatData {
   totalRoadmaps: number;
   totalEstimatedHours: number;
   difficultyBreakdown: Array<{ _id: string; count: number }>;

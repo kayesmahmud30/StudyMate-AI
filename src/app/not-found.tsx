@@ -103,7 +103,7 @@ export default function NotFound() {
             padding: "0 1rem",
           }}
         >
-          We searched all our courses, roadmaps, and milestones, but this page seems to have drifted offline. Let's get you back to your learning dashboard!
+          {"We searched all our courses, roadmaps, and milestones, but this page seems to have drifted offline. Let\'s get you back to your learning dashboard!"}
         </motion.p>
 
         {/* Buttons */}

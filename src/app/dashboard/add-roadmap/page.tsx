@@ -82,8 +82,9 @@ export default function AddRoadmapPage() {
 
       setImageUrl(result.url);
       toast.success("Image uploaded successfully! 📸");
-    } catch (err: any) {
-      toast.error(err.message ?? "Image upload failed");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Image upload failed";
+      toast.error(errorMsg);
     } finally {
       setUploadingImage(false);
     }
@@ -129,8 +130,9 @@ export default function AddRoadmapPage() {
       } else {
         throw new Error("No response received from AI");
       }
-    } catch (err: any) {
-      toast.error(err.message || "Failed to generate description with AI");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to generate description with AI";
+      toast.error(errorMsg);
     } finally {
       setGeneratingDescription(false);
     }
@@ -155,8 +157,9 @@ export default function AddRoadmapPage() {
       if (!result.success) throw new Error(result.error);
       toast.success("Roadmap created successfully! 🚀");
       router.push("/dashboard");
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to create roadmap");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to create roadmap";
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }

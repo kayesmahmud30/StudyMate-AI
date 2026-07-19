@@ -49,8 +49,9 @@ export default function SignUpPage() {
 
       setImageUrl(result.url);
       toast.success("Profile picture uploaded! 📸");
-    } catch (err: any) {
-      toast.error(err.message ?? "Profile picture upload failed");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Profile picture upload failed";
+      toast.error(errorMsg);
     } finally {
       setUploadingImage(false);
     }
@@ -69,8 +70,9 @@ export default function SignUpPage() {
       toast.success("Account created! Welcome to StudyMate AI 🚀");
       router.push("/dashboard");
       router.refresh();
-    } catch (err: any) {
-      toast.error(err.message ?? "Sign up failed");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Sign up failed";
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }

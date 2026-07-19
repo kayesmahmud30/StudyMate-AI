@@ -31,9 +31,12 @@ export default function ProfilePage() {
       return;
     }
     if (session?.user) {
-      setName(session.user.name || "");
-      setEmail(session.user.email || "");
-      setImageUrl(session.user.image || null);
+      const timer = setTimeout(() => {
+        setName(session.user.name || "");
+        setEmail(session.user.email || "");
+        setImageUrl(session.user.image || null);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [session, isPending, router]);
 
@@ -64,8 +67,9 @@ export default function ProfilePage() {
 
       toast.success("Profile picture updated! 📸");
       router.refresh();
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to update profile picture");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to update profile picture";
+      toast.error(errorMsg);
     } finally {
       setUploadingAvatar(false);
     }
@@ -103,8 +107,9 @@ export default function ProfilePage() {
 
       toast.success("Profile updated successfully! 🎉");
       router.refresh();
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to update profile");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to update profile";
+      toast.error(errorMsg);
     } finally {
       setUpdatingProfile(false);
     }
@@ -137,8 +142,9 @@ export default function ProfilePage() {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to change password");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to change password";
+      toast.error(errorMsg);
     } finally {
       setUpdatingPassword(false);
     }

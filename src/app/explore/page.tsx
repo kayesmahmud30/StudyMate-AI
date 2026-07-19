@@ -207,12 +207,13 @@ export default function ExplorePage() {
       } else {
         throw new Error(data.error);
       }
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to add roadmap");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to add roadmap";
+      toast.error(errorMsg);
     }
   };
 
-  const selectStyle = {
+  const selectStyle: React.CSSProperties = {
     background: "rgba(255,255,255,0.05)",
     border: "1px solid rgba(255,255,255,0.1)",
     borderRadius: "0.6rem",
@@ -307,13 +308,13 @@ export default function ExplorePage() {
               <Filter size={15} />
             </div>
             <div className="explore-selects-grid">
-              <select id="select-subject" value={subject} onChange={(e) => setSubject(e.target.value)} style={selectStyle as any}>
+              <select id="select-subject" value={subject} onChange={(e) => setSubject(e.target.value)} style={selectStyle}>
                 {SUBJECTS.map((s) => <option key={s} value={s} style={{ background: "#0f0f2e" }}>{s}</option>)}
               </select>
-              <select id="select-difficulty" value={difficulty} onChange={(e) => setDifficulty(e.target.value)} style={selectStyle as any}>
+              <select id="select-difficulty" value={difficulty} onChange={(e) => setDifficulty(e.target.value)} style={selectStyle}>
                 {DIFFICULTIES.map((d) => <option key={d} value={d} style={{ background: "#0f0f2e" }}>{d}</option>)}
               </select>
-              <select id="select-sort" value={sort} onChange={(e) => setSort(e.target.value)} style={selectStyle as any}>
+              <select id="select-sort" value={sort} onChange={(e) => setSort(e.target.value)} style={selectStyle}>
                 {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value} style={{ background: "#0f0f2e" }}>{o.label}</option>)}
               </select>
             </div>

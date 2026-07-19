@@ -12,7 +12,7 @@ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:8000"
 
 import { getAuthToken } from "@/lib/getAuthToken";
 
-async function authedFetch(url: string, session: any, options: RequestInit = {}) {
+async function authedFetch(url: string, session: unknown, options: RequestInit = {}) {
   const token = await getAuthToken();
   return fetch(url, {
     ...options,
@@ -70,8 +70,9 @@ export default function ManageRoadmapsPage() {
       } else {
         throw new Error(data.error);
       }
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to delete");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to delete";
+      toast.error(errorMsg);
     } finally {
       setDeletingId(null);
     }
@@ -91,8 +92,9 @@ export default function ManageRoadmapsPage() {
       } else {
         throw new Error(data.error);
       }
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to update");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to update";
+      toast.error(errorMsg);
     } finally {
       setTogglingId(null);
     }

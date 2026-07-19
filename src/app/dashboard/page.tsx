@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
-import Stats from "../components/Dashboard/Stats";
+import Stats, { StatData } from "../components/Dashboard/Stats";
 import {
   Plus,
   Settings,
@@ -22,7 +22,7 @@ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:8000"
 
 import { getAuthToken } from "@/lib/getAuthToken";
 
-async function authedFetch(url: string, session: any, options: RequestInit = {}) {
+async function authedFetch(url: string, session: unknown, options: RequestInit = {}) {
   const token = await getAuthToken();
   return fetch(url, {
     ...options,
@@ -99,7 +99,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const [roadmaps, setRoadmaps] = useState<Roadmap[]>([]);
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<StatData | null>(null);
   const [loading, setLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
@@ -127,8 +127,9 @@ export default function DashboardPage() {
 
       toast.success("Profile picture updated! 📸");
       router.refresh();
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to update profile picture");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to update profile picture";
+      toast.error(errorMsg);
     } finally {
       setUploadingAvatar(false);
     }

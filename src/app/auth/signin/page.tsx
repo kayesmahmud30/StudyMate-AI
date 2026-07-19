@@ -35,8 +35,9 @@ export default function SignInPage() {
       toast.success("Welcome back! 🎉");
       router.push("/dashboard");
       router.refresh();
-    } catch (err: any) {
-      toast.error(err.message ?? "Sign in failed");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Sign in failed";
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -280,7 +281,7 @@ export default function SignInPage() {
             </form>
 
             <p style={{ textAlign: "center", marginTop: "1.5rem", fontSize: "0.875rem", color: "rgba(255,255,255,0.45)" }}>
-              Don't have an account?{" "}
+              Do not have an account?{" "}
               <Link href="/auth/signup" style={{ color: "#a78bfa", fontWeight: 600, textDecoration: "none" }}>
                 Sign up free
               </Link>

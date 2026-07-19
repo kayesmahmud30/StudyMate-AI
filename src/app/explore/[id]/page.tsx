@@ -75,8 +75,9 @@ export default function RoadmapDetailPage() {
       } else {
         throw new Error(data.error);
       }
-    } catch (err: any) {
-      toast.error(err.message ?? "Failed to fork roadmap");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to fork roadmap";
+      toast.error(errorMsg);
     } finally {
       setForking(false);
     }
@@ -221,7 +222,7 @@ export default function RoadmapDetailPage() {
         {/* Full description */}
         <div className="glass" style={{ borderRadius: "1.25rem", padding: "2rem", marginBottom: "1.5rem" }}>
           <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <CheckCircle size={20} color="#10b981" /> What You'll Learn
+            <CheckCircle size={20} color="#10b981" /> What You will Learn
           </h2>
           <div
             style={{

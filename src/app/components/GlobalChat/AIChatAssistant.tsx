@@ -36,12 +36,17 @@ export default function AIChatAssistant() {
   // Monitor viewport size to set precise boundaries for dragging
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      const timer = setTimeout(() => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      }, 0);
       const handleResize = () => {
         setWindowSize({ width: window.innerWidth, height: window.innerHeight });
       };
       window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("resize", handleResize);
+      };
     }
   }, []);
 
@@ -81,12 +86,15 @@ export default function AIChatAssistant() {
         ...prev,
         { role: "ai", content: result.data?.reply || "Sorry, I couldn't generate a response." },
       ]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("AI Chat Assistant Error:", error);
-      const isNetworkError = error?.name === "TypeError";
+      const isError = error instanceof Error;
+      const errorName = isError ? error.name : "";
+      const errorMessage = isError ? error.message : "";
+      const isNetworkError = errorName === "TypeError";
       const errorMsg = isNetworkError
         ? "⚠️ Unable to reach the backend server. Please make sure it is running."
-        : `⚠️ ${error?.message || "An unknown error occurred."}`;
+        : `⚠️ ${errorMessage || "An unknown error occurred."}`;
 
       setMessages((prev) => [...prev, { role: "ai", content: errorMsg }]);
     } finally {
