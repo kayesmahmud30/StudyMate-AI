@@ -415,6 +415,11 @@ export default function Hero() {
 
       {/* ─── Stats Banner ────────────────────────────────────────────────────── */}
       <section style={{ padding: "5rem 1.5rem", maxWidth: "1200px", margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+          <h2 className="section-title">Trusted by Thousands of Students</h2>
+          <p className="section-subtitle">Real metrics driving the next generation of study planning.</p>
+        </div>
+
         <div className="hero-stats-banner">
           {STATS.map((s) => (
             <div key={s.label}>

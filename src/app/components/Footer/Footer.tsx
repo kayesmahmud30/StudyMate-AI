@@ -8,7 +8,8 @@ const LINKS = {
     { label: "Add Roadmap", href: "/dashboard/add-roadmap" },
   ],
   Company: [
-    { label: "About", href: "#" },
+    { label: "About", href: "/about" },
+    { label: "Contact Us", href: "/contact" },
     { label: "Blog", href: "#" },
     { label: "Careers", href: "#" },
   ],
