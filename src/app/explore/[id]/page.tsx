@@ -241,7 +241,7 @@ export default function RoadmapDetailPage() {
             Ready to start this roadmap?
           </h3>
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.9rem", marginBottom: "1.5rem" }}>
-            Add it to your dashboard and generate an AI-powered daily schedule.
+            Add it to your dashboard and start tracking your study journey.
           </p>
           <button
             onClick={handleFork}

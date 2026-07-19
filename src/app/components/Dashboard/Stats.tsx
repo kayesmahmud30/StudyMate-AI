@@ -12,11 +12,10 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import { BookOpen, Clock, CalendarCheck, TrendingUp } from "lucide-react";
+import { BookOpen, Clock } from "lucide-react";
 
 interface StatData {
   totalRoadmaps: number;
-  totalSchedules: number;
   totalEstimatedHours: number;
   difficultyBreakdown: Array<{ _id: string; count: number }>;
   subjectBreakdown: Array<{ _id: string; count: number }>;
@@ -65,22 +64,10 @@ export default function Stats({ data }: StatsProps) {
       color: "#7c3aed",
     },
     {
-      icon: <CalendarCheck size={22} />,
-      label: "Active Schedules",
-      value: data.totalSchedules,
-      color: "#06b6d4",
-    },
-    {
       icon: <Clock size={22} />,
       label: "Hours Planned",
       value: data.totalEstimatedHours,
       color: "#10b981",
-    },
-    {
-      icon: <TrendingUp size={22} />,
-      label: "Completion Rate",
-      value: `${data.totalRoadmaps ? Math.round((data.totalSchedules / data.totalRoadmaps) * 100) : 0}%`,
-      color: "#ec4899",
     },
   ];
 

@@ -12,13 +12,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "StudyMate AI — Your Intelligent Study Companion",
+  title: "StudyMate — Your Personal Study Companion",
   description:
-    "StudyMate AI helps you build personalised study roadmaps, generate AI-powered schedules, and chat with an intelligent study assistant — all in one place.",
-  keywords: ["study", "AI", "learning", "roadmap", "education", "schedule"],
+    "StudyMate helps you build personalised study roadmaps and track your learning progress — all in one place.",
+  keywords: ["study", "learning", "roadmap", "education"],
   openGraph: {
-    title: "StudyMate AI",
-    description: "Supercharge your learning with AI-powered study roadmaps",
+    title: "StudyMate",
+    description: "Supercharge your learning with personalized study roadmaps",
     type: "website",
   },
 };

@@ -137,7 +137,7 @@ export default function AddRoadmapPage() {
             Create a New Roadmap
           </h1>
           <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.9rem" }}>
-            Define your learning goals and let AI generate a personalised study schedule.
+            Define your learning goals and structure your personalised study path.
           </p>
         </div>
 

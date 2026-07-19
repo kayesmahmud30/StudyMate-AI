@@ -12,15 +12,11 @@ import {
   Loader2,
   Calendar,
   Clock,
-  Sparkles,
-  Send,
-  X,
-  MessageSquare,
   BookOpen,
   Camera,
   User,
 } from "lucide-react";
-import type { Roadmap, Schedule, ChatMessage } from "@/lib/types";
+import type { Roadmap } from "@/lib/types";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:8000";
 
@@ -298,7 +294,7 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Active Schedules */}
+        {/* My Study Roadmaps */}
         <div>
           <h2 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "1.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <BookOpen size={20} color="#7c3aed" /> My Study Roadmaps

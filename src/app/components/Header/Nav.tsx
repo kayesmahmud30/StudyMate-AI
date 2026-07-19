@@ -94,7 +94,7 @@ export default function Nav() {
               backgroundClip: "text",
             }}
           >
-            StudyMate AI
+            StudyMate
           </span>
         </Link>
 
