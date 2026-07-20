@@ -203,6 +203,7 @@ export default function SignInPage() {
                   <Mail size={16} style={{ position: "absolute", left: "0.9rem", top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.25)", pointerEvents: "none" }} />
                   <input
                     id="input-email"
+                    defaultValue="demo@mail.com"
                     type="email"
                     placeholder="you@example.com"
                     className="auth-input"
@@ -231,6 +232,7 @@ export default function SignInPage() {
                   <Lock size={16} style={{ position: "absolute", left: "0.9rem", top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.25)", pointerEvents: "none" }} />
                   <input
                     id="input-password"
+                    defaultValue="Aa123456"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="auth-input"
