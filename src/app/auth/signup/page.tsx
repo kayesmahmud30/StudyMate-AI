@@ -68,7 +68,7 @@ export default function SignUpPage() {
       });
       if (error) throw new Error(error.message);
       toast.success("Account created! Welcome to StudyMate AI 🚀");
-      router.push("/dashboard");
+      router.push("/");
       router.refresh();
     } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : "Sign up failed";
@@ -79,7 +79,7 @@ export default function SignUpPage() {
   };
 
   const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" });
+    await authClient.signIn.social({ provider: "google", callbackURL: "/" });
   };
 
   const inputStyle = (hasError: boolean) => ({

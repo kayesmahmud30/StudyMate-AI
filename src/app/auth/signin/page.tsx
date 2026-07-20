@@ -33,7 +33,7 @@ export default function SignInPage() {
       });
       if (error) throw new Error(error.message);
       toast.success("Welcome back! 🎉");
-      router.push("/dashboard");
+      router.push("/");
       router.refresh();
     } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : "Sign in failed";
@@ -44,7 +44,7 @@ export default function SignInPage() {
   };
 
   const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" });
+    await authClient.signIn.social({ provider: "google", callbackURL: "/" });
   };
 
   return (
