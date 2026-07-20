@@ -92,7 +92,7 @@ export default function Footer() {
                 maxWidth: "260px",
               }}
             >
-              Your intelligent study companion. Build roadmaps, track schedules, and structure your learning.
+              Your online based intelligent study companion. Build roadmaps and structure your learning.
             </p>
             <div
               style={{
@@ -184,7 +184,7 @@ export default function Footer() {
             © {new Date().getFullYear()} StudyMate. All rights reserved.
           </p>
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.8rem" }}>
-            Built with ♥ using Next.js
+            StudyMate is only online based.
           </p>
         </div>
       </div>

@@ -303,9 +303,9 @@ export default function Hero() {
                 </span>
               </button>
             </Link>
-            <Link href="/auth/signup" style={{ display: "block" }}>
+            <Link href={session ? "/about" : "/auth/signup"} style={{ display: "block" }}>
               <button className="btn-outline hero-btn-nowrap" id="cta-signup">
-                Start for Free
+                {session ? "About Us" : "Start for Free"}
               </button>
             </Link>
           </div>
